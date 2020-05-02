@@ -3,13 +3,13 @@ package com.mingkang.calculator;
 import java.util.ArrayList;
 
 public class Calculate {
-    private ArrayList<Integer> number;
+    private ArrayList<Double> number;
     private ArrayList<String> operator;
     private ArrayList<String> multiply;
     private ArrayList<String> divide;
     private double answer;
 
-    public ArrayList<Integer> getNumber() {
+    public ArrayList<Double> getNumber() {
         return number;
     }
     public ArrayList<String> getOperator() {
@@ -24,7 +24,7 @@ public class Calculate {
     public double getAnswer() {
         return answer;
     }
-    public void setNumber(ArrayList<Integer> number) {
+    public void setNumber(ArrayList<Double> number) {
         this.number = number;
     }
     public void setOperator(ArrayList<String> operator) {
@@ -33,14 +33,21 @@ public class Calculate {
     public void setAnswer(double answer) {
         this.answer = answer;
     }
-    public void initialise(String string){
 
+
+    public void initialise(String string){
 
     }
     public void simplify(String string){
 
     }
+    public void calculate(){
 
+    }
+    //yaya, u go MainActivity see also gt, i try implemented just now.
+    public void findAnswer(){
+
+    }
 
 }
 
@@ -61,6 +68,6 @@ public class Calculate {
     4) public void calculate() (LK)
     -> Multiply and Divide all values
     
-    5) private double findAnswer() (LK)
+    5) private void findAnswer() (LK)
     -> Find sum of number[];
      */

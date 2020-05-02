@@ -3,13 +3,18 @@ package com.mingkang.calculator;
 import android.app.Activity;
 import android.icu.lang.UCharacterEnums;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import net.objecthunter.exp4j.Expression;
+import net.objecthunter.exp4j.ExpressionBuilder;
+
 import java.lang.reflect.Array;
+import java.sql.ResultSet;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -31,6 +36,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        answer = 0;
         calculationResult = 0;
         calculationsString = "";
 
@@ -55,6 +61,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
         findViewById(R.id.btnAC).setOnClickListener(this);
         findViewById(R.id.btnDel).setOnClickListener(this);
         findViewById(R.id.btnAns).setOnClickListener(this);
+
+        Expression e = new ExpressionBuilder("(1++3)/5--7").build();
+        double result = e.evaluate();
+        Log.i("calculation", result+"");
+
     }
 
     @Override
@@ -64,17 +75,19 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 calculationsString = "";
                 txtResult.setText(calculationsString);
             break;
-            
             case "=":
                 done=true;
-                calculationsString = String.valueOf(df.format(solve()));
-                txtResult.setText(calculationsString);
-                answer = solve();//show on screen
+//                calculationsString = String.valueOf(df.format(solve()));
+//                txtResult.setText(calculationsString);
+//                answer = solve();//show on screen Ming Kang how to use haha. I nounderstand what it say 
+                //u mean the library? Ya
+                answer = solveUsingLibrary();
+                txtResult.setText(answer+"");
                 calculationsString = "";
             break;
 
             case "del":
-                if(calculationsString.equals("") == false){
+                if(!calculationsString.equals("")){
                     if(calculationsString.charAt(calculationsString.length()-1)=='s'){
                         calculationsString = calculationsString.substring(0, calculationsString.length() - 3);
                     }
@@ -90,12 +103,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 if(done){
                     String temp = btnView.getTag().toString();
                     if(temp.equals("+") || temp.equals("-") || temp.equals("*") || temp.equals("/")){
-                        calculationsString = "Ans";
+//                        calculationsString = "Ans";
+                        calculationsString = answer+"";
                         calculationsString += btnView.getTag().toString();
                     }
-                    else{
+                    else
                         calculationsString += btnView.getTag().toString();
-                    }
                     done=false;
                 }
                 else{
@@ -171,5 +184,18 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
         return ans;
     };
+
+    //here
+    //yaya straight pass the string into the expressionbuilder method
+    // but horr the Ans cannot lo need use back the value inside Ans
+    //i am thinking of using different string for displaying the calculation and to pass to the method
+    //like showing "Ans" to user, but in calculationsString it is actually the valueg <- Oh ok
+    // But we already use string right? yaya but u cannot pass Ans to the method to solve ma
+    //actually can delete these lines alrd but wanna leave 留纪念 also can la
+    
+    public double solveUsingLibrary() {
+        Expression e = new ExpressionBuilder(calculationsString).build();
+        return e.evaluate();
+    }
 
 }
