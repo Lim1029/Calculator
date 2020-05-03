@@ -7,38 +7,128 @@
     tools:context=".MainActivity">
 
     <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="0dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="16dp"
-        android:background="#5A5A60"
-        android:gravity="right|center_vertical"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/txtResult"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:text="0"
-            android:textSize="36sp" />
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/txtResult"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:cursorVisible="true"
+                    android:editable="false"
+                    android:ems="10"
+                    android:inputType="numberDecimal"
+                    android:scrollbarAlwaysDrawHorizontalTrack="false"
+                    android:scrollbarAlwaysDrawVerticalTrack="false"
+                    android:scrollbars="horizontal"
+                    android:scrollHorizontally="true"
+                    android:singleLine="true"
+                    android:textSize="36sp"
+                    android:textColor="#fff"
+                    />
+                <requestFocus />
+            </LinearLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnInverse"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:tag="1/("
+                android:text="x^-1" />
+
+            <Button
+                android:id="@+id/btnAbs"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:tag="abs("
+                android:text="abs" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnLog10"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:tag="log10("
+                android:text="Log" />
+
+            <Button
+                android:id="@+id/btnLn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:tag="log("
+                android:text="Ln" />
+
+            <Button
+                android:id="@+id/btnSquare"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:tag="^2"
+                android:text="x²" />
+
+            <Button
+                android:id="@+id/btnExponent"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:tag="^"
+                android:text="ₓ□" />
+
+            <Button
+                android:id="@+id/btnFraction"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:tag="/fraction"
+                android:text="□\n-----\n□"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/btnSqrt"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:tag="sqrt("
+                android:text="√□" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -52,7 +142,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:tag="("
-                android:text="(" />
+                android:text="("
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/btnRightBracket"
@@ -60,7 +151,37 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:tag=")"
-                android:text=")" />
+                android:text=")"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/btnSin"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:tag="sin("
+                android:text="sin"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Button
+                android:id="@+id/btnCos"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:tag="cos("
+                android:text="cos"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/btnTan"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:tag="tan("
+                android:text="tan"
+                android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -75,7 +196,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:tag="7"
-                android:text="7" />
+                android:text="7"
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/btn8"
@@ -83,7 +205,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:tag="8"
-                android:text="8" />
+                android:text="8"
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/btn9"
@@ -91,7 +214,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:tag="9"
-                android:text="9" />
+                android:text="9"
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/btnDel"
@@ -99,7 +223,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:tag="del"
-                android:text="del" />
+                android:text="del"
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/btnAC"
@@ -108,7 +233,7 @@
                 android:layout_weight="1"
                 android:tag="ac"
                 android:text="ac"
-                android:textSize="14sp" />
+                android:textSize="18sp" />
 
         </LinearLayout>
 
@@ -124,7 +249,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:tag="4"
-                android:text="4" />
+                android:text="4"
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/btn5"
@@ -132,7 +258,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:tag="5"
-                android:text="5" />
+                android:text="5"
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/btn6"
@@ -140,15 +267,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:tag="6"
-                android:text="6" />
-
-            <Button
-                android:id="@+id/btnDivide"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:tag="/"
-                android:text="/" />
+                android:text="6"
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/btnMultiply"
@@ -156,7 +276,18 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:tag="*"
-                android:text="*" />
+                android:text="×"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/btnDivide"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:tag="/"
+                android:text="\u00f7"
+                android:textSize="18sp" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -171,7 +302,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:tag="1"
-                android:text="1" />
+                android:text="1"
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/btn2"
@@ -179,7 +311,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:tag="2"
-                android:text="2" />
+                android:text="2"
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/btn3"
@@ -187,7 +320,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:tag="3"
-                android:text="3" />
+                android:text="3"
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/btnPlus"
@@ -195,7 +329,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:tag="+"
-                android:text="+" />
+                android:text="+"
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/btnMinus"
@@ -203,7 +338,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:tag="-"
-                android:text="-" />
+                android:text="-"
+                android:textSize="18sp" />
 
         </LinearLayout>
 
@@ -219,7 +355,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:tag="0"
-                android:text="0" />
+                android:text="0"
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/btnDot"
@@ -227,14 +364,18 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:tag="."
-                android:text="." />
+                android:text="."
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/btn10"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="x10^x"
+                android:fontFamily="sans-serif-condensed"
+                android:tag="Exp"
+                android:text="×10ᵡ"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -246,6 +387,7 @@
                 android:layout_weight="1"
                 android:tag="Ans"
                 android:text="ans"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent" />
 
             <Button
@@ -254,7 +396,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:tag="="
-                android:text="=" />
+                android:text="="
+                android:textSize="18sp" />
 
         </LinearLayout>
 

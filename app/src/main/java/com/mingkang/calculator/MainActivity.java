@@ -1,14 +1,26 @@
 package com.mingkang.calculator;
 
 import android.app.Activity;
+import android.content.Context;
 import android.icu.lang.UCharacterEnums;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+
+import android.text.InputType;
+import android.text.Selection;
+
+import android.text.Selection;import android.text.Editable;import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
@@ -21,15 +33,17 @@ import java.util.ArrayList;
 public class MainActivity extends Activity implements View.OnClickListener {
 
     TextView txtCalculation;
-    TextView txtResult;
+    EditText txtResult;
+    EditText edtResult;
     ImageView btnEqual;
 
-    private DecimalFormat df = new DecimalFormat("#.#");
+    private DecimalFormat df = new DecimalFormat("#.###############");
     private float calculationResult;
     private String strHold;
     private double answer;
     private boolean done;
     private String calculationsString;
+    private String displayString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +53,27 @@ public class MainActivity extends Activity implements View.OnClickListener {
         answer = 0;
         calculationResult = 0;
         calculationsString = "";
+        displayString="";
 
-        done=false;
+        done=true;
         txtResult = findViewById(R.id.txtResult);
+        txtResult.setShowSoftInputOnFocus(false);
 
+        InitialiseButton();
+        Expression e = new ExpressionBuilder("(1++3)/5--7").build();
+        double result = e.evaluate();
+        Log.i("calculation", result+"");
+
+        getWindow().setSoftInputMode(
+
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+
+        );
+
+    }
+
+
+    private void InitialiseButton(){
         findViewById(R.id.btnEqual).setOnClickListener(this);
         findViewById(R.id.btn0).setOnClickListener(this);
         findViewById(R.id.btn1).setOnClickListener(this);
@@ -54,6 +85,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         findViewById(R.id.btn7).setOnClickListener(this);
         findViewById(R.id.btn8).setOnClickListener(this);
         findViewById(R.id.btn9).setOnClickListener(this);
+        findViewById(R.id.btn10).setOnClickListener(this);
         findViewById(R.id.btnDivide).setOnClickListener(this);
         findViewById(R.id.btnPlus).setOnClickListener(this);
         findViewById(R.id.btnMinus).setOnClickListener(this);
@@ -61,17 +93,28 @@ public class MainActivity extends Activity implements View.OnClickListener {
         findViewById(R.id.btnAC).setOnClickListener(this);
         findViewById(R.id.btnDel).setOnClickListener(this);
         findViewById(R.id.btnAns).setOnClickListener(this);
-
-        Expression e = new ExpressionBuilder("(1++3)/5--7").build();
-        double result = e.evaluate();
-        Log.i("calculation", result+"");
-
+        findViewById(R.id.btnCos).setOnClickListener(this);
+        findViewById(R.id.btnSin).setOnClickListener(this);
+        findViewById(R.id.btnTan).setOnClickListener(this);
+        findViewById(R.id.btnDot).setOnClickListener(this);
+        findViewById(R.id.btnLeftBracket).setOnClickListener(this);
+        findViewById(R.id.btnRightBracket).setOnClickListener(this);
+        findViewById(R.id.btnFraction).setOnClickListener(this);
+        findViewById(R.id.btnSqrt).setOnClickListener(this);
+        findViewById(R.id.btnInverse).setOnClickListener(this);
+        findViewById(R.id.btnSquare).setOnClickListener(this);
+        findViewById(R.id.btnLog10).setOnClickListener(this);
+        findViewById(R.id.btnLn).setOnClickListener(this);
+        findViewById(R.id.btnAbs).setOnClickListener(this);
+        findViewById(R.id.btnExponent).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View btnView) {
         switch (btnView.getTag().toString()){
             case "ac":
+                done=false;
+                displayString="";
                 calculationsString = "";
                 txtResult.setText(calculationsString);
             break;
@@ -79,123 +122,140 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 done=true;
 //                calculationsString = String.valueOf(df.format(solve()));
 //                txtResult.setText(calculationsString);
-//                answer = solve();//show on screen Ming Kang how to use haha. I nounderstand what it say 
-                //u mean the library? Ya
-                answer = solveUsingLibrary();
-                txtResult.setText(answer+"");
-                calculationsString = "";
-            break;
+//                answer = solve();
+                try {
+                    answer = solveUsingLibrary();
+                    txtResult.setText(df.format(answer));
+                    displayString = "";
+                    calculationsString = "";
+                } catch (Exception e) {
+                    Toast.makeText(this, e.getMessage(),Toast.LENGTH_SHORT).show();
+                }
+
+                break;
 
             case "del":
-                if(!calculationsString.equals("")){
-                    if(calculationsString.charAt(calculationsString.length()-1)=='s'){
-                        calculationsString = calculationsString.substring(0, calculationsString.length() - 3);
-                    }
-                    else {
-                        calculationsString = calculationsString.substring(0, calculationsString.length() - 1);
-                    }
+//                if(!calculationsString.equals("")) {
+//                    calculationsString = calculationsString.substring(0, calculationsString.length() - 1);
+//                    if (displayString.charAt(displayString.length() - 1) == 's' || displayString.charAt(displayString.length() - 1) == 'n' || displayString.charAt(displayString.length() - 1) == 'g') {
+//                        displayString = displayString.substring(0, displayString.length() - 3);
+//                    } else {
+//                        displayString = displayString.substring(0, displayString.length() - 1);
+//                    }
+//                    txtResult.setText(calculationsString);
+//                }
+                if(!calculationsString.equals("")) {
+                    calculationsString = calculationsString.substring(0, calculationsString.length() - 1);
                     txtResult.setText(calculationsString);
                 }
 
             break;
 
+            case "ANS":
+                calculationsString += answer;
+                displayString += "Ans";
+            break;
+
             default:
+                String temp = btnView.getTag().toString();
                 if(done){
-                    String temp = btnView.getTag().toString();
-                    if(temp.equals("+") || temp.equals("-") || temp.equals("*") || temp.equals("/")){
-//                        calculationsString = "Ans";
-                        calculationsString = answer+"";
-                        calculationsString += btnView.getTag().toString();
+                    if(temp.equals("*")){
+                        displayString += "Ansx";
+                        calculationsString += String.valueOf(answer) + '*';
                     }
-                    else
-                        calculationsString += btnView.getTag().toString();
+                    else if(temp.equals("/")){
+                        displayString += "Ans" + "\u00f7";
+                        calculationsString += String.valueOf(answer) + '/';
+                    }
+                    else if(temp.equals("+") || temp.equals("-")){
+                        displayString += "Ans" + temp;
+                        calculationsString += String.valueOf(answer) + temp;
+                    }
+                    else if(temp.equals("/fraction")){
+                        displayString += "Ans/";
+                        calculationsString += String.valueOf(answer) + "/";
+                    }
+                    else if(temp.equals("^2")){
+                        displayString = "Ans^2";
+                        calculationsString = "" + String.valueOf(answer) + "^2";
+                    }
+                    else if(temp.equals("^")){
+                        displayString = "Ans^";
+                        calculationsString = "" + String.valueOf(answer)  + "^";
+                    }
+                    else if(temp.equals("log(")){
+                        displayString = "ln(Ans";
+                        calculationsString = "log(" + String.valueOf(answer);
+                    }
+                    else if(temp.equals("log10(")){
+                        displayString = "log(Ans";
+                        calculationsString = "log10(" + String.valueOf(answer);
+                    }
+                    else if(temp.equals("1/(")){
+                        displayString = "(Ans)^-1";
+                        calculationsString = "1/(" + String.valueOf(answer) + ")";
+                    }
+                    else if(temp.equals("abs(")){
+                        displayString = "abs(Ans";
+                        calculationsString = "abs(" + String.valueOf(answer);
+                    }
+                    else if(temp.equals("Exp")){
+                        displayString = "Ansx10^";
+                        calculationsString = String.valueOf(answer) + "*10^";
+                    }
+                    else{
+                        displayString += temp;
+                        calculationsString += temp;
+                    }
                     done=false;
                 }
                 else{
-                    calculationsString += btnView.getTag().toString();
+                    if(temp.equals("*")){
+                        displayString += 'x';
+                        calculationsString += "*";
+                    }
+                    else if(temp.equals("/")){
+                        displayString += "\u00f7";
+                        calculationsString += "/";
+                    }
+                    else if(temp.equals("/fraction")){
+                        displayString = "" + displayString + "/";
+                        calculationsString = "" + calculationsString + "/";
+                    }
+                    else if(temp.equals("^2")){
+                        displayString = "" + displayString + "^2";
+                        calculationsString = "" + calculationsString + "^2";
+                    }
+                    else if(temp.equals("^")){
+                        displayString = "" + displayString + "^";
+                        calculationsString = "" + calculationsString  + "^";
+                    }
+                    else if(temp.equals("Exp")){
+                        displayString = "*10^";
+                        calculationsString += "*10^";
+                    }
+                    else if(temp.equals("log10(")){
+                        displayString = "log(";
+                        calculationsString += temp;
+                    }
+                    else if(temp.equals("log(")){
+                        displayString = "ln(";
+                        calculationsString +=temp;
+                    }
+                    else {
+                        displayString += temp;
+                        calculationsString += temp;
+                    }
                 }
                 txtResult.setText(calculationsString);
 
             break;
         }
-
+        txtResult.setSelection(txtResult.length());
     }
 
-    private double solve(){
-        ArrayList<Double> number = new ArrayList<>();
-        ArrayList<Character> operator = new ArrayList<>();
-        int[] op = {0, 0, 0, 0}; //operator
-        boolean tapped = false;
-        double temp=0;
-        for(int i=0;i<calculationsString.length();i++){
-            if(calculationsString.charAt(i) == 'A'){
-                if(i==0) number.add(answer);
-                else{
-                    if(calculationsString.charAt(i) == '+' || calculationsString.charAt(i)== '-' || calculationsString.charAt(i) =='*' || calculationsString.charAt(i)=='/') {
-                        number.add(answer);
-                    }
-                    else{
-                        double num1 = number.get(number.size()-1);
-                        number.remove((number.size()-1));
-                        number.add(num1*answer);
-                    }
-                }
-                i+=2;
-            }
-            else if(calculationsString.charAt(i) == '+' || calculationsString.charAt(i)== '-' || calculationsString.charAt(i) =='*' || calculationsString.charAt(i)=='/'){
-                if(tapped) {
-                    if(calculationsString.charAt(i) == '+') op[0]++;
-                    else if(calculationsString.charAt(i) == '-') op[1]++;
-                    else if(calculationsString.charAt(i) == '*') op[2]++;
-                    else if(calculationsString.charAt(i) == '/') op[3]++;
-                    number.add(temp);
-                    temp=0;
-                    operator.add(calculationsString.charAt(i));
-                }
-            }
-            else {
-                if (!tapped) tapped = true;
-                double num = Double.parseDouble(calculationsString.substring(i,i+1)); //
-                temp = temp*10 +num;
-            }
-        }
-        if(calculationsString.charAt(calculationsString.length()-1) != 's') number.add(temp);
-        double ans=0;
-        if(op[2]>0 || op[3]>0){
-            for(int i=0;i<operator.size();i++) {
-                if(operator.get(i) == '*'){
-                    double num1 = number.get(i), num2 = number.get(i+1);
-                    number.set(i , num1*num2);
-                    number.remove((i+1));
-                    operator.remove(i);
-                }
-                else if (operator.get(i) == '/'){
-                    double num1 = number.get(i), num2 = number.get(i+1);
-                    number.set(i , num1/num2);
-                    number.remove((i+1));
-                    operator.remove(i);
-                }
-            }
-        }
-        ans = number.get(0);
-        for(int i=0;i<operator.size();i++){
-            if(operator.get(i) == '+') ans += number.get(i+1);
-            else if(operator.get(i) == '-') ans -= number.get(i+1);
-        }
-        return ans;
-    };
-
-    //here
-    //yaya straight pass the string into the expressionbuilder method
-    // but horr the Ans cannot lo need use back the value inside Ans
-    //i am thinking of using different string for displaying the calculation and to pass to the method
-    //like showing "Ans" to user, but in calculationsString it is actually the valueg <- Oh ok
-    // But we already use string right? yaya but u cannot pass Ans to the method to solve ma
-    //actually can delete these lines alrd but wanna leave 留纪念 also can la
-    
     public double solveUsingLibrary() {
-        Expression e = new ExpressionBuilder(calculationsString).build();
-        return e.evaluate();
+            Expression e = new ExpressionBuilder(calculationsString).build();
+            return e.evaluate();
     }
-
 }
