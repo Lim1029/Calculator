@@ -373,7 +373,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-condensed"
-                android:tag="Exp"
+                android:tag="*10^"
                 android:text="×10ᵡ"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
