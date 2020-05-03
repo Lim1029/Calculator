@@ -60,15 +60,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         txtResult.setShowSoftInputOnFocus(false);
 
         InitialiseButton();
-        Expression e = new ExpressionBuilder("(1++3)/5--7").build();
-        double result = e.evaluate();
-        Log.i("calculation", result+"");
-
-        getWindow().setSoftInputMode(
-
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-
-        );
 
     }
 
