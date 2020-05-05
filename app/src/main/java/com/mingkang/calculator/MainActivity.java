@@ -38,17 +38,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private EditText txtResult;
     private DecimalFormat df = new DecimalFormat("#.###############");
-    private String answer;
-    private boolean done, shift;
+    private boolean shift;
     private String calculationsString;
-    private String displayString;
-    private ArrayList<String> displayStringArray;
-    private String[] addAnswerBeforeIt;
-    private String[] addAnswerAfterIt;
-
-    private Button btnCos, btnSin;
-    private Button btnTan;
-    private Button btnInverse;
+    private Button btnCos, btnSin, btnTan, btnInverse, btn10, btnSquare, btnSqrt, btnDot;
+    private boolean state = false;
 
 
     @Override
@@ -57,25 +50,23 @@ public class MainActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_main);
 
         shift = false;
-        answer = "";
-        calculationsString = "";
-        displayString="";
-        addAnswerBeforeIt = new String[]{"*", "*10^", "^", "^2", "+", "/","-"};
-        addAnswerAfterIt = new String[]{"log(","log10(","1/(","abs(","sqrt(","sin(","cos(","tan("};
-        done=false;
         txtResult = findViewById(R.id.txtResult);
         txtResult.setShowSoftInputOnFocus(false);
-        displayStringArray = new ArrayList<>();
 
         btnCos = findViewById(R.id.btnCos);
         btnSin = findViewById(R.id.btnSin);
         btnTan = findViewById(R.id.btnTan);
         btnInverse = findViewById(R.id.btnInverse);
+        btn10 = findViewById(R.id.btn10);
+        btnSquare = findViewById(R.id.btnSquare);
+        btnSqrt = findViewById(R.id.btnSqrt);
+        btnDot = findViewById(R.id.btnDot);
 
         InitialiseButton();
+        Calculate.initializeOperator();
     }
 
-    private void InitialiseButton(){
+    private void InitialiseButton() {
         findViewById(R.id.btnEqual).setOnClickListener(this);
         findViewById(R.id.btn0).setOnClickListener(this);
         findViewById(R.id.btn1).setOnClickListener(this);
@@ -115,111 +106,83 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View btnView) {
-
-        switch (btnView.getTag().toString()){
+        switch (btnView.getTag().toString()) {
             case "ac":
-                resetEverything();
+                Calculate.resetEverything();
+                txtResult.setText(Calculate.arrayListToString());
+                state = false;
                 break;
             case "=":
-                done=true;
+                Calculate.done = true;
                 try {
-                    answer = df.format((solveUsingLibrary()));
-                    txtResult.setText(answer);
-                    displayString = "";
-                    calculationsString = "";
+                    Calculate.convertVisualToExpression();
+                    txtResult.setText(df.format(Calculate.solveUsingLibrary()));
+                    Calculate.validExpression = "";
+                    Calculate.displayStringArray.clear();
                 } catch (Exception e) {
-                    Toast.makeText(this, e.getMessage(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
+                state = false;
                 break;
 
             case "del":
-                if(!calculationsString.equals("")) {
-                    calculationsString = calculationsString.substring(0, calculationsString.length() - 1);
-                    txtResult.setText(calculationsString);
-                }
-            break;
+                if (Calculate.displayStringArray.size() > 0)
+                    Calculate.displayStringArray.remove(Calculate.displayStringArray.size() - 1);
+                txtResult.setText(Calculate.arrayListToString());
+                state = false;
+                break;
 
             case "ANS":
-                calculationsString += answer;
-                displayString += "Ans";
-            break;
+                Calculate.populateCalculationArray("Ans");
+                txtResult.setText(Calculate.arrayListToString());
+                state = false;
+                break;
 
             case "SHIFT":
-                btnShiftTapped(0);
+                btnShiftTapped();
+                state = true;
                 break;
 
             default:
                 String temp = btnView.getTag().toString();
-                populateCalculationString(temp);
+                Calculate.populateCalculationArray(temp);
+                txtResult.setText(Calculate.arrayListToString());
+//                populateCalculationString(temp);
 
-                if(calculationsString.contains("logb(") && calculationsString.length() >= 6 && !calculationsString.contains(","))
-                    calculationsString += ",";
-                btnShiftTapped(1);
+                //if(Calculate.displayStringArray.contains("logb(") && calculationsString.length() >= 6 && !calculationsString.contains(","))
 
-            break;
+                state = false;
+                break;
         }
         txtResult.setSelection(txtResult.length());
+        if(shift && !state) btnShiftTapped();
+
     }
 
-    public double solveUsingLibrary() {
-        Expression e;
-        FunctionAndOperator fo = new FunctionAndOperator();
-        e = new ExpressionBuilder(calculationsString).operator(fo.factorial).function(fo.logb).build();
-        return e.evaluate();
-    }
+    private void btnShiftTapped() {
+        if (shift) shift = false;
+        else shift = true;
 
-    public void resetEverything() {
-        done=false;
-        displayString="";
-        calculationsString = "";
-        txtResult.setText(calculationsString);
-    }
+        if (shift == true) {
+            btnCos.setText("COS⁻¹");
+            btnCos.setTag("cos⁻¹(");
+            btnSin.setText("SIN⁻¹");
+            btnSin.setTag("sin⁻¹(");
+            btnTan.setText("TAN⁻¹");
+            btnTan.setTag("tan⁻¹(");
+            btnInverse.setText("X !");
+            btnInverse.setTag("!");
+            btn10.setText("π");
+            btn10.setTag("π");
+            btnSquare.setText("x³");
+            btnSquare.setTag("³");
+            btnSqrt.setText("∛□");
+            btnSqrt.setTag("^(1/3)");
+            btnDot.setText(",");
+            btnDot.setTag(",");
 
-    public void populateCalculationString(String temp) {
-        if (temp.equals("Ans")) {
-            calculationsString += answer;
-            done = false;
-        }
-        else if(done){
-            if(Arrays.asList(addAnswerBeforeIt).contains(temp))
-                calculationsString += answer + temp;
-            else if (Arrays.asList(addAnswerAfterIt).contains(temp))
-                calculationsString += temp + answer;
-            else
-                calculationsString += temp;
-            done=false;
-        }
-        else calculationsString += temp;
-        txtResult.setText(calculationsString);
-    }
 
-    private void btnShiftTapped(int state){
-        if(shift == false) shift = true;
-        else shift = false;
-
-        if(state == 0){
-            if(shift == true){
-                btnCos.setText("COS⁻¹");
-                btnCos.setTag("acos(");
-                btnSin.setText("SIN⁻¹");
-                btnSin.setTag("asin(");
-                btnTan.setText("TAN⁻¹");
-                btnTan.setTag("atan(");
-                btnInverse.setText("X !");
-                btnInverse.setTag("!");
-            }
-            else{
-                btnCos.setText("COS");
-                btnCos.setTag("cos(");
-                btnSin.setText("SIN");
-                btnSin.setTag("sin(");
-                btnTan.setText("TAN");
-                btnTan.setTag("tan(");
-                btnInverse.setText("X⁻¹");
-                btnInverse.setTag("1/(");
-            }
-        }else{
-            shift = false;
+        } else {
             btnCos.setText("COS");
             btnCos.setTag("cos(");
             btnSin.setText("SIN");
@@ -227,9 +190,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
             btnTan.setText("TAN");
             btnTan.setTag("tan(");
             btnInverse.setText("X⁻¹");
-            btnInverse.setTag("1/(");
+            btnInverse.setTag("⁻¹");
+            btn10.setText("×10ᵡ");
+            btn10.setTag("×₁₀");
+            btnSquare.setText("x²");
+            btnSquare.setTag("²");
+            btnSqrt.setText("√□");
+            btnSqrt.setTag("√(");
+            btnDot.setText(".");
+            btnDot.setTag(".");
         }
-
-
     }
 }
+
