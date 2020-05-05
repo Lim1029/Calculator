@@ -1,73 +1,68 @@
 package com.mingkang.calculator;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 public class Calculate {
-    private ArrayList<Double> number;
-    private ArrayList<String> operator;
-    private ArrayList<String> multiply;
-    private ArrayList<String> divide;
-    private double answer;
+    public String answer = "";
+    public boolean done = false;
+    public HashMap<String, String> operatorHashMap = new HashMap<>();
+    public String[] addAnswerBeforeIt = new String[]{"*", "*10^", "^", "^2", "+", "/", "-",};
+    public String[] addAnswerAfterIt = new String[]{"log(", "log10(", "1/(", "abs(", "sqrt("};
 
-    public ArrayList<Double> getNumber() {
-        return number;
-    }
-    public ArrayList<String> getOperator() {
-        return operator;
-    }
-    public ArrayList<String> getMultiply() {
-        return multiply;
-    }
-    public ArrayList<String> getDivide() {
-        return divide;
-    }
-    public double getAnswer() {
-        return answer;
-    }
-    public void setNumber(ArrayList<Double> number) {
-        this.number = number;
-    }
-    public void setOperator(ArrayList<String> operator) {
-        this.operator = operator;
-    }
-    public void setAnswer(double answer) {
-        this.answer = answer;
+    public Calculate(String answer) {
+        operatorHashMap.put("√(", "sqrt(");
+        operatorHashMap.put("²", "^(2)");
+        operatorHashMap.put("%", "/(100)");
+        operatorHashMap.put("×", "*");
+        operatorHashMap.put("Ans", (answer));
+        operatorHashMap.put("⁻¹", "^(-1)");
+        operatorHashMap.put("³√(", "");
+        operatorHashMap.put("³", "^(3)");
+        operatorHashMap.put("ˣ√(", "");
+        operatorHashMap.put("sin⁻¹(", "asin(");
+        operatorHashMap.put("cos⁻¹(", "acos(");
+        operatorHashMap.put("tan⁻¹(", "atan(");
+        operatorHashMap.put("ln(", "log(");
+        operatorHashMap.put("log{", "log10(");
     }
 
-
-    public void initialise(String string){
-
-    }
-    public void simplify(String string){
-
-    }
-    public void calculate(){
-
-    }
-    //yaya, u go MainActivity see also gt, i try implemented just now.
-    public void findAnswer(){
-
+    public String convertVisualToExpression(ArrayList<String> Visual) {
+        String convert2 = "";
+        String validExpression = "";
+        for (String value : Visual) {
+            if (operatorHashMap.containsKey(value))
+                convert2 = operatorHashMap.get(value);
+            else convert2 = value;
+            validExpression += convert2;
+        }
+        return validExpression;
     }
 
+    public String arrayListToString(ArrayList<String> displayStringArray) {
+        String displayString = "";
+        for (String value : displayStringArray)
+            displayString += value;
+        return displayString;
+    }
+
+    public ArrayList<String> populateCalculationArray(String temp, ArrayList<String> displayStringArray) {
+        if (temp.equals("Ans")) {
+            displayStringArray.add(temp);
+            done = false;
+        } else if (done) {
+            if (Arrays.asList(addAnswerBeforeIt).contains(temp)) {
+                displayStringArray.add("Ans");
+                displayStringArray.add(temp);
+            } else if (Arrays.asList(addAnswerAfterIt).contains(temp)) {
+                displayStringArray.add(temp);
+                displayStringArray.add("Ans");
+            } else
+                displayStringArray.add(temp);
+            done = false;
+        } else displayStringArray.add(temp);
+        return displayStringArray;
+    }
 }
-
-
-/*
-    1) public void initialise(string) (MK)
-    int number[] , String operator[]
-    
-    2) public boolean validate(operator[]) (MK)
-    -> Check for all strings in operator
-        -> If got 'x' or '/' after first character -> False
-        -> else -> True
-
-    3) public void simplify() (ZH)
-       -> Simplify all '+' and '-' into number[]
-       -> Set index for multiply and divide
-
-    4) public void calculate() (LK)
-    -> Multiply and Divide all values
-    
-    5) private void findAnswer() (LK)
-    -> Find sum of number[];
-     */

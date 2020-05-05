@@ -24,6 +24,8 @@ import android.widget.Toast;
 
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
+import net.objecthunter.exp4j.function.Function;
+import net.objecthunter.exp4j.operator.Operator;
 
 import java.lang.reflect.Array;
 import java.sql.ResultSet;
@@ -37,30 +39,41 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private EditText txtResult;
     private DecimalFormat df = new DecimalFormat("#.###############");
     private String answer;
-    private boolean done;
+    private boolean done, shift;
     private String calculationsString;
     private String displayString;
+    private ArrayList<String> displayStringArray;
     private String[] addAnswerBeforeIt;
     private String[] addAnswerAfterIt;
+
+    private Button btnCos, btnSin;
+    private Button btnTan;
+    private Button btnInverse;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        shift = false;
         answer = "";
         calculationsString = "";
         displayString="";
-        addAnswerBeforeIt = new String[]{"*", "*10^", "^", "^2", "+", "/","-",};
-        addAnswerAfterIt = new String[]{"log(","log10(","1/(","abs(","sqrt("};
+        addAnswerBeforeIt = new String[]{"*", "*10^", "^", "^2", "+", "/","-"};
+        addAnswerAfterIt = new String[]{"log(","log10(","1/(","abs(","sqrt(","sin(","cos(","tan("};
         done=false;
         txtResult = findViewById(R.id.txtResult);
         txtResult.setShowSoftInputOnFocus(false);
+        displayStringArray = new ArrayList<>();
+
+        btnCos = findViewById(R.id.btnCos);
+        btnSin = findViewById(R.id.btnSin);
+        btnTan = findViewById(R.id.btnTan);
+        btnInverse = findViewById(R.id.btnInverse);
 
         InitialiseButton();
-
     }
-
 
     private void InitialiseButton(){
         findViewById(R.id.btnEqual).setOnClickListener(this);
@@ -93,13 +106,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
         findViewById(R.id.btnInverse).setOnClickListener(this);
         findViewById(R.id.btnSquare).setOnClickListener(this);
         findViewById(R.id.btnLog10).setOnClickListener(this);
+        findViewById(R.id.btnLogBase).setOnClickListener(this);
         findViewById(R.id.btnLn).setOnClickListener(this);
         findViewById(R.id.btnAbs).setOnClickListener(this);
         findViewById(R.id.btnExponent).setOnClickListener(this);
+        findViewById(R.id.btnShift).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View btnView) {
+
         switch (btnView.getTag().toString()){
             case "ac":
                 resetEverything();
@@ -107,10 +123,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
             case "=":
                 done=true;
                 try {
-//                    answer = solveUsingLibrary();
                     answer = df.format((solveUsingLibrary()));
                     txtResult.setText(answer);
-//                    txtResult.setText(df.format(answer));
                     displayString = "";
                     calculationsString = "";
                 } catch (Exception e) {
@@ -119,35 +133,39 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 break;
 
             case "del":
-//                if(!calculationsString.equals("")) {
-//                    calculationsString = calculationsString.substring(0, calculationsString.length() - 1);
-//                    if (displayString.charAt(displayString.length() - 1) == 's' || displayString.charAt(displayString.length() - 1) == 'n' || displayString.charAt(displayString.length() - 1) == 'g') {
-//                        displayString = displayString.substring(0, displayString.length() - 3);
-//                    } else {
-//                        displayString = displayString.substring(0, displayString.length() - 1);
-//                    }
-//                    txtResult.setText(calculationsString);
-//                }
                 if(!calculationsString.equals("")) {
                     calculationsString = calculationsString.substring(0, calculationsString.length() - 1);
                     txtResult.setText(calculationsString);
                 }
             break;
+
             case "ANS":
                 calculationsString += answer;
                 displayString += "Ans";
             break;
+
+            case "SHIFT":
+                btnShiftTapped(0);
+                break;
+
             default:
                 String temp = btnView.getTag().toString();
                 populateCalculationString(temp);
+
+                if(calculationsString.contains("logb(") && calculationsString.length() >= 6 && !calculationsString.contains(","))
+                    calculationsString += ",";
+                btnShiftTapped(1);
+
             break;
         }
         txtResult.setSelection(txtResult.length());
     }
 
     public double solveUsingLibrary() {
-            Expression e = new ExpressionBuilder(calculationsString).build();
-            return e.evaluate();
+        Expression e;
+        FunctionAndOperator fo = new FunctionAndOperator();
+        e = new ExpressionBuilder(calculationsString).operator(fo.factorial).function(fo.logb).build();
+        return e.evaluate();
     }
 
     public void resetEverything() {
@@ -157,8 +175,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         txtResult.setText(calculationsString);
     }
 
-    public void populateCalculationString(String temp)
-    {
+    public void populateCalculationString(String temp) {
         if (temp.equals("Ans")) {
             calculationsString += answer;
             done = false;
@@ -168,93 +185,51 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 calculationsString += answer + temp;
             else if (Arrays.asList(addAnswerAfterIt).contains(temp))
                 calculationsString += temp + answer;
-//                    if(temp.equals("*")){
-//                        displayString += "Ans";
-//                        calculationsString += String.valueOf(answer) + '*';
-//                    }
-//                    else if(temp.equals("/")){
-//                        displayString += "Ans" + "\u00f7";
-//                        calculationsString += String.valueOf(answer) + '/';
-//                    }
-//                    else if(temp.equals("+") || temp.equals("-")){
-//                        displayString += "Ans" + temp;
-//                        calculationsString += String.valueOf(answer) + temp;
-//                    }
-//                    else if(temp.equals("/fraction")){
-//                        displayString += "Ans/";
-//                        calculationsString += String.valueOf(answer) + "/";
-//                    }
-//                    else if(temp.equals("^2")){
-//                        displayString = "Ans^2";
-//                        calculationsString = "" + String.valueOf(answer) + "^2";
-//                    }
-//                    else if(temp.equals("^")){
-//                        displayString = "Ans^";
-//                        calculationsString = "" + String.valueOf(answer)  + "^";
-//                    }
-//                    else if(temp.equals("log(")){
-//                        displayString = "ln(Ans";
-//                        calculationsString = "log(" + String.valueOf(answer);
-//                    }
-//                    else if(temp.equals("log10(")){
-//                        displayString = "log(Ans";
-//                        calculationsString = "log10(" + String.valueOf(answer);
-//                    }
-//                    else if(temp.equals("1/(")){
-//                        displayString = "(Ans)^-1";
-//                        calculationsString = "1/(" + String.valueOf(answer) + ")";
-//                    }
-//                    else if(temp.equals("abs(")){
-//                        displayString = "abs(Ans";
-//                        calculationsString = "abs(" + String.valueOf(answer);
-//                    }
-//                    else if(temp.equals("Exp")){
-//                        displayString = "Ansx10^";
-//                        calculationsString = String.valueOf(answer) + "*10^";
-//                    }
-            else{
-                displayString += temp;
+            else
                 calculationsString += temp;
-            }
             done=false;
         }
         else calculationsString += temp;
-//                    if(temp.equals("*")){
-//                        displayString += 'x';
-//                        calculationsString += "*";
-//                    }
-//                    else if(temp.equals("/")){
-//                        displayString += "\u00f7";
-//                        calculationsString += "/";
-//                    }
-//                    else if(temp.equals("/fraction")){
-//                        displayString = "" + displayString + "/";
-//                        calculationsString = "" + calculationsString + "/";
-//                    }
-//                    else if(temp.equals("^2")){
-//                        displayString = "" + displayString + "^2";
-//                        calculationsString = "" + calculationsString + "^2";
-//                    }
-//                    else if(temp.equals("^")){
-//                        displayString = "" + displayString + "^";
-//                        calculationsString = "" + calculationsString  + "^";
-//                    }
-//                    else if(temp.equals("Exp")){
-//                        displayString = "*10^";
-//                        calculationsString += "*10^";
-//                    }
-//                    else if(temp.equals("log10(")){
-//                        displayString = "log(";
-//                        calculationsString += temp;
-//                    }
-//                    else if(temp.equals("log(")){
-//                        displayString = "ln(";
-//                        calculationsString +=temp;
-//                    }
-//                    else {
-//                        displayString += temp;
-//                        calculationsString += temp;
-//                    }
         txtResult.setText(calculationsString);
+    }
+
+    private void btnShiftTapped(int state){
+        if(shift == false) shift = true;
+        else shift = false;
+
+        if(state == 0){
+            if(shift == true){
+                btnCos.setText("COS⁻¹");
+                btnCos.setTag("acos(");
+                btnSin.setText("SIN⁻¹");
+                btnSin.setTag("asin(");
+                btnTan.setText("TAN⁻¹");
+                btnTan.setTag("atan(");
+                btnInverse.setText("X !");
+                btnInverse.setTag("!");
+            }
+            else{
+                btnCos.setText("COS");
+                btnCos.setTag("cos(");
+                btnSin.setText("SIN");
+                btnSin.setTag("sin(");
+                btnTan.setText("TAN");
+                btnTan.setTag("tan(");
+                btnInverse.setText("X⁻¹");
+                btnInverse.setTag("1/(");
+            }
+        }else{
+            shift = false;
+            btnCos.setText("COS");
+            btnCos.setTag("cos(");
+            btnSin.setText("SIN");
+            btnSin.setTag("sin(");
+            btnTan.setText("TAN");
+            btnTan.setTag("tan(");
+            btnInverse.setText("X⁻¹");
+            btnInverse.setTag("1/(");
+        }
+
+
     }
 }
