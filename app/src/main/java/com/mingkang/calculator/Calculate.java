@@ -12,7 +12,7 @@ public class Calculate {
     public static double answer = 0;
     public static boolean done = false;
     public static HashMap<String, String> operatorHashMap = new HashMap<>();
-    public static String[] addAnswerBeforeIt = {"×", "×₁₀", "^", "²", "+", "÷", "-","%","⁻¹"};
+    public static String[] addAnswerBeforeIt = {"×", "×₁₀", "^", "²", "+", "÷", "-","%","⁻¹","!","³","^(1/3)"};
     public static String[] addAnswerAfterIt = new String[]{"ln(","log(","abs(","√(","sin(","cos(","tan(","sin⁻¹(","cos⁻¹(","tan⁻¹("};
     public static ArrayList<String> displayStringArray = new ArrayList<>();
     public static String validExpression = "";
