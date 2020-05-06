@@ -12,8 +12,8 @@ public class Calculate {
     public static double answer = 0;
     public static boolean done = false;
     public static HashMap<String, String> operatorHashMap = new HashMap<>();
-    public static String[] addAnswerBeforeIt = {"*", "*10^", "^", "^2", "+", "/", "-",};
-    public static String[] addAnswerAfterIt = new String[]{"log(","log10(","1/(","abs(","sqrt(","sin(","cos(","tan("};
+    public static String[] addAnswerBeforeIt = {"×", "×₁₀", "^", "²", "+", "÷", "-","%","⁻¹"};
+    public static String[] addAnswerAfterIt = new String[]{"ln(","log(","abs(","√(","sin(","cos(","tan(","sin⁻¹(","cos⁻¹(","tan⁻¹("};
     public static ArrayList<String> displayStringArray = new ArrayList<>();
     public static String validExpression = "";
 
@@ -33,6 +33,7 @@ public class Calculate {
         operatorHashMap.put("ln(", "log(");
         operatorHashMap.put("log(", "log10(");
         operatorHashMap.put("×₁₀","*10^");
+        operatorHashMap.put("÷","/");
     }
 
     public static void convertVisualToExpression() {
