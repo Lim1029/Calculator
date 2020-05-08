@@ -2,6 +2,7 @@ package com.mingkang.calculator;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.icu.lang.UCharacterEnums;
 import android.os.Build;
 import android.os.Bundle;
@@ -37,10 +38,11 @@ import java.util.List;
 public class MainActivity extends Activity implements View.OnClickListener {
 
     private EditText txtResult;
-    private DecimalFormat df = new DecimalFormat("#.###############");
+    private TextView txtResult2;
+    private DecimalFormat df = new DecimalFormat("#.################");
     private boolean shift;
     private String calculationsString;
-    private Button btnCos, btnSin, btnTan, btnInverse, btn10, btnSquare, btnSqrt, btnDot;
+    private Button btnCos, btnSin, btnTan, btnInverse, btn10, btnSquare, btnSqrt, btnDot, btnMultiply, btnDivide, btnPercent;
     private boolean state = false;
 
 
@@ -51,8 +53,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         shift = false;
         txtResult = findViewById(R.id.txtResult);
+        txtResult2 = findViewById(R.id.txtResult2);
         txtResult.setShowSoftInputOnFocus(false);
 
+        InitialiseButton();
+        InitialiseOnClickButton();
+        Calculate.initializeOperator();
+
+    }
+
+    private void InitialiseButton(){
         btnCos = findViewById(R.id.btnCos);
         btnSin = findViewById(R.id.btnSin);
         btnTan = findViewById(R.id.btnTan);
@@ -61,12 +71,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
         btnSquare = findViewById(R.id.btnSquare);
         btnSqrt = findViewById(R.id.btnSqrt);
         btnDot = findViewById(R.id.btnDot);
-
-        InitialiseButton();
-        Calculate.initializeOperator();
+        btnMultiply = findViewById(R.id.btnMultiply);
+        btnDivide = findViewById(R.id.btnDivide);
+        btnPercent = findViewById(R.id.btnPercent);
     }
 
-    private void InitialiseButton() {
+    private void InitialiseOnClickButton() {
         findViewById(R.id.btnEqual).setOnClickListener(this);
         findViewById(R.id.btn0).setOnClickListener(this);
         findViewById(R.id.btn1).setOnClickListener(this);
@@ -102,6 +112,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         findViewById(R.id.btnAbs).setOnClickListener(this);
         findViewById(R.id.btnExponent).setOnClickListener(this);
         findViewById(R.id.btnShift).setOnClickListener(this);
+        findViewById(R.id.btnPercent).setOnClickListener(this);
     }
 
     @Override
@@ -110,13 +121,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
             case "ac":
                 Calculate.resetEverything();
                 txtResult.setText(Calculate.arrayListToString());
+                txtResult2.setText("0");
                 state = false;
                 break;
             case "=":
                 Calculate.done = true;
                 try {
                     Calculate.convertVisualToExpression();
-                    txtResult.setText(df.format(Calculate.solveUsingLibrary()));
+                    txtResult2.setText(df.format(Calculate.solveUsingLibrary()));
                     Calculate.validExpression = "";
                     Calculate.displayStringArray.clear();
                 } catch (Exception e) {
@@ -156,7 +168,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
         txtResult.setSelection(txtResult.length());
         if(shift && !state) btnShiftTapped();
-
     }
 
     private void btnShiftTapped() {
@@ -177,12 +188,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
             btnSquare.setText("x³");
             btnSquare.setTag("³");
             btnSqrt.setText("∛□");
-            btnSqrt.setTag("^(1/3)");
+            btnSqrt.setTag("³√(");
             btnDot.setText(",");
             btnDot.setTag(",");
-
-
-        } else {
+            btnMultiply.setText("nPr");
+            btnMultiply.setTag("P");
+            btnDivide.setText("nCr");
+            btnDivide.setTag("C");
+            btnPercent.setText("≡");
+            btnPercent.setTag("≡");
+        }
+        else {
             btnCos.setText("COS");
             btnCos.setTag("cos(");
             btnSin.setText("SIN");
@@ -199,7 +215,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
             btnSqrt.setTag("√(");
             btnDot.setText(".");
             btnDot.setTag(".");
+            btnMultiply.setText("×");
+            btnMultiply.setTag("×");
+            btnDivide.setText("÷");
+            btnDivide.setTag("÷");
+            btnPercent.setText("%");
+            btnPercent.setTag("%");
         }
     }
 }
-

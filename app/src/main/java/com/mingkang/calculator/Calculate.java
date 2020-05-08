@@ -1,5 +1,7 @@
 package com.mingkang.calculator;
 
+import android.util.Log;
+
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 
@@ -12,7 +14,7 @@ public class Calculate {
     public static double answer = 0;
     public static boolean done = false;
     public static HashMap<String, String> operatorHashMap = new HashMap<>();
-    public static String[] addAnswerBeforeIt = {"×", "×₁₀", "^", "²", "+", "÷", "-","%","⁻¹","!","³","^(1/3)"};
+    public static String[] addAnswerBeforeIt = {"×", "×₁₀", "^", "²", "+", "÷", "-","%","⁻¹","!","³","^(1/3)","%","⌟"};
     public static String[] addAnswerAfterIt = new String[]{"ln(","log(","abs(","√(","sin(","cos(","tan(","sin⁻¹(","cos⁻¹(","tan⁻¹("};
     public static ArrayList<String> displayStringArray = new ArrayList<>();
     public static String validExpression = "";
@@ -24,7 +26,7 @@ public class Calculate {
         operatorHashMap.put("×", "*");
         operatorHashMap.put("Ans", answer+"");
         operatorHashMap.put("⁻¹", "^(-1)");
-        operatorHashMap.put("³√(", "");
+        operatorHashMap.put("³√(", "cbrt(");
         operatorHashMap.put("³", "^(3)");
         operatorHashMap.put("ˣ√(", "");
         operatorHashMap.put("sin⁻¹(", "asin(");
@@ -34,6 +36,10 @@ public class Calculate {
         operatorHashMap.put("log(", "log10(");
         operatorHashMap.put("×₁₀","*10^");
         operatorHashMap.put("÷","/");
+        operatorHashMap.put("C","#|");
+        operatorHashMap.put("P","#&");
+        operatorHashMap.put("⌟","|");
+        operatorHashMap.put("≡", "$");
     }
 
     public static void convertVisualToExpression() {
@@ -75,7 +81,7 @@ public class Calculate {
     public static double solveUsingLibrary() {
         Expression e;
         FunctionAndOperator fo = new FunctionAndOperator();
-        e = new ExpressionBuilder(validExpression).operator(fo.factorial).function(fo.logb).build();
+        e = new ExpressionBuilder(validExpression).operator(fo.factorial, fo.combination, fo.permutation, fo.fraction, fo.modulo).function(fo.logb).build();
         answer = e.evaluate();
         operatorHashMap.put("Ans",answer+"");
         return answer;
