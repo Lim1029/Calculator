@@ -16,8 +16,8 @@ public class Calculate {
     public static boolean done = false;
     public static HashMap<String, String> operatorHashMap = new HashMap<>();
     public static HashMap<String, String> buttonShiftHashMap = new HashMap<>();
-    public static String[] addAnswerBeforeIt = {"×", "×₁₀", "^(", "²", "+", "÷", "-","%","⁻¹","!","³","³√(","%","⌟"};
-    public static String[] addAnswerAfterIt = new String[]{"ln(","log(","Abs(","√(","sin(","cos(","tan(","sin⁻¹(","cos⁻¹(","tan⁻¹("};
+    public static String[] addAnswerBeforeIt = {"×", "×₁₀","²", "+", "÷", "-","%","⁻¹","!","³","%","⌟"};
+    public static String[] addAnswerAfterIt = new String[]{"ln(","^(","log(","Abs(","√(","sin(","cos(","tan(","sin⁻¹(","cos⁻¹(","tan⁻¹(","³√("};
     public static ArrayList<String> displayStringArray = new ArrayList<>();
     public static String validExpression = "";
 
@@ -88,7 +88,9 @@ public class Calculate {
         buttonShiftHashMap.put("∫(","d/dx(");
         buttonShiftHashMap.put("⁻¹","!");
         buttonShiftHashMap.put("log(","Σ(");
-    }
+        buttonShiftHashMap.put("MODE","SETUP");
+    }    //∫
+    
 
 
     public static void convertVisualToExpression() {

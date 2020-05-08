@@ -13,15 +13,22 @@ import android.text.Selection;
 
 import android.text.Selection;import android.text.Editable;import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
@@ -34,6 +41,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
@@ -45,12 +53,24 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private Button btnCos, btnSin, btnTan, btnInverse, btn10, btnSquare, btnSqrt, btnDot, btnMultiply, btnDivide, btnPercent, btnRightBracket;
     private boolean state = false;
     public static boolean quadraticOperation, substitute, imaginaryRoot;
-    
+    private View root;
+    private PopupMenu popup;
+
     @Override
     
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        root = LayoutInflater.from(this).inflate(R.layout.activity_main, null);
+        setContentView(root);
+
+        this.getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        );
 
         shift = false;
         txtResult = findViewById(R.id.txtResult);
@@ -60,6 +80,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         InitialiseButton();
         InitialiseOnClickButton();
         Calculate.initializeOperator();
+        Calculate.initializeShiftSymbol();
 
     }
 
@@ -115,8 +136,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
         findViewById(R.id.btnExponent).setOnClickListener(this);
         findViewById(R.id.btnShift).setOnClickListener(this);
         //findViewById(R.id.btnPercent).setOnClickListener(this);
-        findViewById(R.id.btnQuadratic).setOnClickListener(this);
+        //findViewById(R.id.btnQuadratic).setOnClickListener(this);
         findViewById(R.id.btnCalc).setOnClickListener(this);
+        findViewById(R.id.btnMode).setOnClickListener(this);
+
+        txtResult2.setMovementMethod(new ScrollingMovementMethod());
     }
 
     @Override
@@ -135,15 +159,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     txtResult2.setText(df.format(Calculate.solveUsingLibrary()));
                     if (quadraticOperation == true) {
                         String solution = df.format(Calculate.solveUsingLibrary());
-                    if(imaginaryRoot == true) {
-                                        txtResult2.setText("X1: " +  %.2f + %.2fi  //txtResult2.getText().toString() + "\nX2: " + solution);
-
-                    }else {
-                        
-                                //String solution = df.format(Calculate.solveUsingLibrary());
+                        if (imaginaryRoot == true) {
+                            txtResult2.setText("X1: " + txtResult2.getText().toString() + "+" + solution + "i" + "\nX2: " + txtResult2.getText().toString() + "-" + solution + "i");
+                            imaginaryRoot = false;
+                        } else {
                             txtResult2.setText("X1: " + txtResult2.getText().toString() + "\nX2: " + solution);
-                  //System.out.format("%.2f+%.2fi and root2 = %.2f-%.2fi", realPart, imaginaryPart, realPart, imaginaryPart);
-        }         
+                        }
+                        quadraticOperation = false;
                     }
                     Calculate.validExpression = "";
                     Calculate.displayStringArray.clear();
@@ -178,6 +200,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 else Toast.makeText(this,"No variable available",Toast.LENGTH_SHORT).show();
                 break;
 
+            case "MODE":
+                popup = new PopupMenu(MainActivity.this, btnView);
+                popup.setOnMenuItemClickListener(this);
+                MenuInflater inflater = popup.getMenuInflater();
+                inflater.inflate(R.menu.menu_popup, popup.getMenu());
+                popup.show();
+                break;
+
             default:
                 String temp = btnView.getTag().toString();
 
@@ -185,7 +215,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     storedValue += temp;
                     txtResult.setText(storedValue);
                     substitute = true;
-                } else{
+             } else{
                     Calculate.populateCalculationArray(temp);
                     txtResult.setText(Calculate.arrayListToString());
                 }
@@ -203,52 +233,38 @@ public class MainActivity extends Activity implements View.OnClickListener {
         else shift = true;
 
         if (shift == true) {
-            btnCos.setText("COS⁻¹");
-            btnCos.setTag("cos⁻¹(");
-            btnSin.setText("SIN⁻¹");
-            btnSin.setTag("sin⁻¹(");
-            btnTan.setText("TAN⁻¹");
-            btnTan.setTag("tan⁻¹(");
-            btnInverse.setText("X !");
-            btnInverse.setTag("!");
-            btn10.setText("π");
-            btn10.setTag("π");
-            btnSquare.setText("x³");
-            btnSquare.setTag("³");
-            btnSqrt.setText("∛□");
-            btnSqrt.setTag("³√(");
-            btnDot.setText(",");
-            btnDot.setTag(",");
-            btnMultiply.setText("nPr");
-            btnMultiply.setTag("P");
-            btnDivide.setText("nCr");
-            btnDivide.setTag("C");
-            btnRightBracket.setText("X");
-            btnRightBracket.setTag("x");
+            for(Map.Entry<String,String> entry : Calculate.buttonShiftHashMap.entrySet()){
+                Button button = root.findViewWithTag(entry.getKey());
+                if(button!=null) {
+                    button.setTag(entry.getValue());
+                    button.setText(entry.getValue());
+                }
+            }
         }
         else {
-            btnCos.setText("COS");
-            btnCos.setTag("cos(");
-            btnSin.setText("SIN");
-            btnSin.setTag("sin(");
-            btnTan.setText("TAN");
-            btnTan.setTag("tan(");
-            btnInverse.setText("X⁻¹");
-            btnInverse.setTag("⁻¹");
-            btn10.setText("×10ᵡ");
-            btn10.setTag("×₁₀");
-            btnSquare.setText("x²");
-            btnSquare.setTag("²");
-            btnSqrt.setText("√□");
-            btnSqrt.setTag("√(");
-            btnDot.setText(".");
-            btnDot.setTag(".");
-            btnMultiply.setText("×");
-            btnMultiply.setTag("×");
-            btnDivide.setText("÷");
-            btnDivide.setTag("÷");
-            btnRightBracket.setText(")");
-            btnRightBracket.setTag(")");
+            for(Map.Entry<String,String> entry : Calculate.buttonShiftHashMap.entrySet()){
+                Button button = root.findViewWithTag(entry.getValue());
+                if(button!=null) {
+                    button.setTag(entry.getKey());
+                    button.setText(entry.getKey());
+                }
+            }
         }
     }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.solveQuadraticEqn:
+                return true;
+            case R.id.calcSequenceSummation:
+                return true;
+            default:
+                return false;
+        }
+    }
+    
+    
+    
+
 }

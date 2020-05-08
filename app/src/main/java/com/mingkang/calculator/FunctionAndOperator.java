@@ -132,16 +132,16 @@ public class FunctionAndOperator {
         public double apply(double... args) {
             double determinant = Math.pow(args[1], 2) - 4 * args[0] * args[2];
             count++;
+            MainActivity.quadraticOperation = true;
             if (determinant < 0) {
                 if (count % 2 == 1) {
-                    MainActivity.quadraticOperation = true;
+                    MainActivity.imaginaryRoot = true;
                     return findRealRoot(args[0], args[1]);
                 } else {
                     return findImaginaryPart(args[0], determinant);
                 }
             } else {
                 if (count % 2 == 1) {
-                    MainActivity.quadraticOperation = true;
                     return findPositiveRoot(args[0], args[1], determinant);
                 } else {
                     return findNegativeRoot(args[0], args[1], determinant);
@@ -151,11 +151,11 @@ public class FunctionAndOperator {
     };
 }
 
-    Function sequenceSummation = new Function("Σ",3){
-        @Override
-        public double apply(double... args) {
-
-    };
+//    Function sequenceSummation = new Function("Σ",3){
+//        @Override
+//        public double apply(double... args) {
+//
+//    };
 
 /*
     Operator sequenceSummation = new Operator("Σ", 1, true, Operator.PRECEDENCE_POWER) {
@@ -171,16 +171,4 @@ public class FunctionAndOperator {
     };
 }
 
-        // Condition for real and equal roots
-        else if(determinant == 0) {
-            root1 = root2 = -b / (2 * a);
-            System.out.format("root1 = root2 = %.2f;", root1);
-        }
-        // If roots are not real
-        else {
-            double realPart = -b / (2 *a);
-            double imaginaryPart = Math.sqrt(-determinant) / (2 * a);
-            System.out.format("root1 = %.2f+%.2fi and root2 = %.2f-%.2fi", realPart, imaginaryPart, realPart, imaginaryPart);
-        }
-    }
  */
