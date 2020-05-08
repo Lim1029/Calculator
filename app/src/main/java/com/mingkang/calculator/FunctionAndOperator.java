@@ -2,6 +2,7 @@ package com.mingkang.calculator;
 
 import android.util.Log;
 
+import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import net.objecthunter.exp4j.function.Function;
 import net.objecthunter.exp4j.operator.Operator;
@@ -44,23 +45,23 @@ public class FunctionAndOperator {
             if (args[0] < args[1]) {
                 throw new IllegalArgumentException("Operand for combination must have larger n than r");
             }
-            if((double) arg1 != args[0]){
+            if ((double) arg1 != args[0]) {
                 throw new IllegalArgumentException("Operand for combination has to be an integer");
             }
-            if((double) arg2 != args[1]){
+            if ((double) arg2 != args[1]) {
                 throw new IllegalArgumentException("Operand for combination has to be an integer");
             }
-            double n = 1.0, r = 1.0,d = 1.0;
-            for(int i=1;i<=args[0];i++) {
-                n*=i;
+            double n = 1.0, r = 1.0, d = 1.0;
+            for (int i = 1; i <= args[0]; i++) {
+                n *= i;
             }
-            for(int i=1;i<=args[1];i++) {
-                r*=i;
+            for (int i = 1; i <= args[1]; i++) {
+                r *= i;
             }
-            for(int i=1;i<=args[0]-args[1];i++) {
-                d*=i;
+            for (int i = 1; i <= args[0] - args[1]; i++) {
+                d *= i;
             }
-            double ans = n/(r*d);
+            double ans = n / (r * d);
             return ans;
         }
     };
@@ -73,17 +74,17 @@ public class FunctionAndOperator {
             if (values[0] < values[1]) {
                 throw new IllegalArgumentException("Operand for permutation must have larger n than r");
             }
-            if((double) arg1 != values[0] || (double) arg2 != values[1]){
+            if ((double) arg1 != values[0] || (double) arg2 != values[1]) {
                 throw new IllegalArgumentException("Operand for permutation has to be an integer");
             }
             double n = 1.0, r = 1.0;
-            for(int i=1;i<=values[0];i++) {
-                n*=i;
+            for (int i = 1; i <= values[0]; i++) {
+                n *= i;
             }
-            for(int i=1;i<=values[0]-values[1];i++) {
-                r*=i;
+            for (int i = 1; i <= values[0] - values[1]; i++) {
+                r *= i;
             }
-            double ans = n/r;
+            double ans = n / r;
             return ans;
         }
     };
@@ -91,11 +92,11 @@ public class FunctionAndOperator {
     Operator fraction = new Operator("|", 2, true, Operator.PRECEDENCE_MULTIPLICATION) {
         @Override
         public double apply(double... args) {
-            return args[0]/args[1];
+            return args[0] / args[1];
         }
     };
 
-    Operator modulo = new Operator("$", 2, true, Operator.PRECEDENCE_MULTIPLICATION+1) {
+    Operator modulo = new Operator("$", 2, true, Operator.PRECEDENCE_MULTIPLICATION + 1) {
         @Override
         public double apply(double... args) {
             final int arg1 = (int) args[0];
@@ -103,9 +104,83 @@ public class FunctionAndOperator {
             if ((double) arg1 != args[0] || (double) arg2 != args[1]) {
                 throw new IllegalArgumentException("Operand for modulo has to be an integer");
             }
-            int ans = arg1%arg2;
+            int ans = arg1 % arg2;
             return ans;
         }
     };
 
+    static int count = 0;
+
+    Function quadratic = new Function("quadratic", 3) {
+        private double findPositiveRoot(double a, double b, double d) {
+            return (double) (-1 * b + Math.sqrt(d)) / 2 * a;
+        }
+
+        private double findNegativeRoot(double a, double b, double d) {
+            return (double) (-1 * b - Math.sqrt(d)) / 2 * a;
+        }
+
+        private double findRealRoot(double a, double b) {
+            return (double) -1 * b / (2 * a);
+        }
+
+        private double findImaginaryPart(double a, double d) {
+            return (double) Math.sqrt(-d) / (2 * a);
+        }
+
+        @Override
+        public double apply(double... args) {
+            double determinant = Math.pow(args[1], 2) - 4 * args[0] * args[2];
+            count++;
+            if (determinant < 0) {
+                if (count % 2 == 1) {
+                    MainActivity.quadraticOperation = true;
+                    return findRealRoot(args[0], args[1]);
+                } else {
+                    return findImaginaryPart(args[0], determinant);
+                }
+            } else {
+                if (count % 2 == 1) {
+                    MainActivity.quadraticOperation = true;
+                    return findPositiveRoot(args[0], args[1], determinant);
+                } else {
+                    return findNegativeRoot(args[0], args[1], determinant);
+                }
+            }
+        }
+    };
 }
+
+    Function sequenceSummation = new Function("Σ",3){
+        @Override
+        public double apply(double... args) {
+
+    };
+
+/*
+    Operator sequenceSummation = new Operator("Σ", 1, true, Operator.PRECEDENCE_POWER) {
+        @Override
+        public double apply(double... args) {
+            double sum = 0;
+            Expression e = Calculate.solveUsingLibrary().e;
+            for(int i=(int)args[0]; i<=(int)args[1]; i++) {
+                sum += Calculate.solveUsingLibrary().
+            }
+            return 0;
+        }
+    };
+}
+
+        // Condition for real and equal roots
+        else if(determinant == 0) {
+            root1 = root2 = -b / (2 * a);
+            System.out.format("root1 = root2 = %.2f;", root1);
+        }
+        // If roots are not real
+        else {
+            double realPart = -b / (2 *a);
+            double imaginaryPart = Math.sqrt(-determinant) / (2 * a);
+            System.out.format("root1 = %.2f+%.2fi and root2 = %.2f-%.2fi", realPart, imaginaryPart, realPart, imaginaryPart);
+        }
+    }
+ */

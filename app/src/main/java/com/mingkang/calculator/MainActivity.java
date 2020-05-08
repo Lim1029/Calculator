@@ -37,16 +37,17 @@ import java.util.List;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
-    private EditText txtResult;
+    public static EditText txtResult;
     private TextView txtResult2;
     private DecimalFormat df = new DecimalFormat("#.################");
     private boolean shift;
-    private String calculationsString;
-    private Button btnCos, btnSin, btnTan, btnInverse, btn10, btnSquare, btnSqrt, btnDot, btnMultiply, btnDivide, btnPercent;
+    private String calculationsString, storedValue = "";
+    private Button btnCos, btnSin, btnTan, btnInverse, btn10, btnSquare, btnSqrt, btnDot, btnMultiply, btnDivide, btnPercent, btnRightBracket;
     private boolean state = false;
-
-
+    public static boolean quadraticOperation, substitute, imaginaryRoot;
+    
     @Override
+    
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -73,7 +74,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         btnDot = findViewById(R.id.btnDot);
         btnMultiply = findViewById(R.id.btnMultiply);
         btnDivide = findViewById(R.id.btnDivide);
-        btnPercent = findViewById(R.id.btnPercent);
+        //btnPercent = findViewById(R.id.btnPercent);
+        btnRightBracket = findViewById(R.id.btnRightBracket);
     }
 
     private void InitialiseOnClickButton() {
@@ -112,7 +114,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         findViewById(R.id.btnAbs).setOnClickListener(this);
         findViewById(R.id.btnExponent).setOnClickListener(this);
         findViewById(R.id.btnShift).setOnClickListener(this);
-        findViewById(R.id.btnPercent).setOnClickListener(this);
+        //findViewById(R.id.btnPercent).setOnClickListener(this);
+        findViewById(R.id.btnQuadratic).setOnClickListener(this);
+        findViewById(R.id.btnCalc).setOnClickListener(this);
     }
 
     @Override
@@ -129,6 +133,18 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 try {
                     Calculate.convertVisualToExpression();
                     txtResult2.setText(df.format(Calculate.solveUsingLibrary()));
+                    if (quadraticOperation == true) {
+                        String solution = df.format(Calculate.solveUsingLibrary());
+                    if(imaginaryRoot == true) {
+                                        txtResult2.setText("X1: " +  %.2f + %.2fi  //txtResult2.getText().toString() + "\nX2: " + solution);
+
+                    }else {
+                        
+                                //String solution = df.format(Calculate.solveUsingLibrary());
+                            txtResult2.setText("X1: " + txtResult2.getText().toString() + "\nX2: " + solution);
+                  //System.out.format("%.2f+%.2fi and root2 = %.2f-%.2fi", realPart, imaginaryPart, realPart, imaginaryPart);
+        }         
+                    }
                     Calculate.validExpression = "";
                     Calculate.displayStringArray.clear();
                 } catch (Exception e) {
@@ -155,13 +171,25 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 state = true;
                 break;
 
+            case "CALC":
+                if(txtResult.getText().toString().contains("x")){
+                    txtResult2.setText("X?");
+                }
+                else Toast.makeText(this,"No variable available",Toast.LENGTH_SHORT).show();
+                break;
+
             default:
                 String temp = btnView.getTag().toString();
-                Calculate.populateCalculationArray(temp);
-                txtResult.setText(Calculate.arrayListToString());
-//                populateCalculationString(temp);
 
-                //if(Calculate.displayStringArray.contains("logb(") && calculationsString.length() >= 6 && !calculationsString.contains(","))
+                if(txtResult2.getText().toString().contains("X?")){
+                    storedValue += temp;
+                    txtResult.setText(storedValue);
+                    substitute = true;
+                } else{
+                    Calculate.populateCalculationArray(temp);
+                    txtResult.setText(Calculate.arrayListToString());
+                }
+//                populateCalculationString(temp);
 
                 state = false;
                 break;
@@ -195,8 +223,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
             btnMultiply.setTag("P");
             btnDivide.setText("nCr");
             btnDivide.setTag("C");
-            btnPercent.setText("≡");
-            btnPercent.setTag("≡");
+            btnRightBracket.setText("X");
+            btnRightBracket.setTag("x");
         }
         else {
             btnCos.setText("COS");
@@ -219,8 +247,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
             btnMultiply.setTag("×");
             btnDivide.setText("÷");
             btnDivide.setTag("÷");
-            btnPercent.setText("%");
-            btnPercent.setTag("%");
+            btnRightBracket.setText(")");
+            btnRightBracket.setTag(")");
         }
     }
 }

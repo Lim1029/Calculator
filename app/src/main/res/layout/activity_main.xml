@@ -36,7 +36,7 @@
             android:scrollbars="horizontal"
             android:scrollHorizontally="true"
             android:singleLine="true"
-            android:textColor="#fff"
+            android:textColor="#FFFFFF"
             android:textSize="18sp" />
 
         <TextView
@@ -46,7 +46,8 @@
             android:layout_weight="1"
             android:paddingRight="10dp"
             android:textAlignment="textEnd"
-            android:textSize="30sp" />
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
 
         <requestFocus />
     </LinearLayout>
@@ -95,22 +96,21 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <Button
-                android:id="@+id/btnInverse"
+                android:id="@+id/btnMode"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:fontFamily="cursive"
-                android:tag="⁻¹"
-                android:text="x⁻¹"
+                android:tag="mode"
+                android:text="mode"
                 android:textAllCaps="false" />
 
             <Button
-                android:id="@+id/btnAbs"
+                android:id="@+id/btnOn"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:tag="abs("
-                android:text="abs"
+                android:tag="on"
+                android:text="on"
                 android:textAllCaps="false" />
 
         </LinearLayout>
@@ -122,11 +122,12 @@
             android:orientation="horizontal">
 
             <Button
+                android:id="@+id/btnQuadratic"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:tag="SHIFT"
-                android:text="Shift"
+                android:tag="quadratic("
+                android:text="quadratic"
                 android:textAllCaps="false" />
 
             <Button
@@ -134,8 +135,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:tag="%"
-                android:text="%"
                 android:textAllCaps="false" />
 
             <Button
@@ -144,8 +143,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:fontFamily="cursive"
-                android:tag="⁻¹"
-                android:text="x⁻¹"
                 android:textAllCaps="false" />
 
             <Button
@@ -165,21 +162,21 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btnShift"
+                android:id="@+id/btnCalc"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:tag="SHIFT"
-                android:text="Shift"
+                android:tag="CALC"
+                android:text="calc"
                 android:textAllCaps="false" />
 
             <Button
-                android:id="@+id/btnPercent"
+                android:id="@+id/btnIntegral"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:tag="%"
-                android:text="%"
+                android:tag="∫("
+                android:text="∫"
                 android:textAllCaps="false" />
 
             <Button
@@ -218,24 +215,6 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btnSquare"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:tag="²"
-                android:text="x²"
-                android:textAllCaps="false" />
-
-            <Button
-                android:id="@+id/btnExponent"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:tag="^"
-                android:text="ₓ□"
-                android:textAllCaps="false" />
-
-            <Button
                 android:id="@+id/btnFraction"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -252,6 +231,24 @@
                 android:layout_weight="1"
                 android:tag="√("
                 android:text="√□"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/btnSquare"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:tag="²"
+                android:text="x²"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/btnExponent"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:tag="^("
+                android:text="ₓ□"
                 android:textAllCaps="false" />
 
             <Button
@@ -281,30 +278,30 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btnLog10"
+                android:id="@+id/btnNegative"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:tag="log("
-                android:text="log"
+                android:tag="≡"
+                android:text="≡"
                 android:textAllCaps="false" />
 
             <Button
-                android:id="@+id/btnLn"
+                android:id="@+id/btnDegree"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:tag="ln("
-                android:text="ln"
+                android:tag="°"
+                android:text=".,,,"
                 android:textAllCaps="false" />
 
             <Button
-                android:id="@+id/btnSquare"
+                android:id="@+id/btnHyp"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:tag="²"
-                android:text="x²"
+                android:tag="hyp"
+                android:text="hyp"
                 android:textAllCaps="false" />
 
             <Button
@@ -348,12 +345,12 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btnFraction"
+                android:id="@+id/btnRCL"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:tag="⌟"
-                android:text="⌟"
+                android:tag="rcl"
+                android:text="RCL"
                 android:textAllCaps="false"
                 android:textSize="12sp" />
 
@@ -362,8 +359,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:tag="abs("
-                android:text="abs"
+                android:tag="ENG"
+                android:text="ENG"
                 android:textAllCaps="false" />
 
             <Button
@@ -387,21 +384,21 @@
                 android:textSize="18sp" />
 
             <Button
-                android:id="@+id/btnSqrt"
+                android:id="@+id/btnSD"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:tag="√("
-                android:text="√□"
+                android:tag="sd"
+                android:text="0"
                 android:textAllCaps="false" />
 
             <Button
-                android:id="@+id/btnExponent"
+                android:id="@+id/btnMPlus"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:tag="^"
-                android:text="ₓ□"
+                android:tag="M+"
+                android:text="M+"
                 android:textAllCaps="false" />
 
         </LinearLayout>

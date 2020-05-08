@@ -4,6 +4,7 @@ import android.util.Log;
 
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
+import net.objecthunter.exp4j.ValidationResult;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -14,8 +15,9 @@ public class Calculate {
     public static double answer = 0;
     public static boolean done = false;
     public static HashMap<String, String> operatorHashMap = new HashMap<>();
-    public static String[] addAnswerBeforeIt = {"×", "×₁₀", "^", "²", "+", "÷", "-","%","⁻¹","!","³","^(1/3)","%","⌟"};
-    public static String[] addAnswerAfterIt = new String[]{"ln(","log(","abs(","√(","sin(","cos(","tan(","sin⁻¹(","cos⁻¹(","tan⁻¹("};
+    public static HashMap<String, String> buttonShiftHashMap = new HashMap<>();
+    public static String[] addAnswerBeforeIt = {"×", "×₁₀", "^(", "²", "+", "÷", "-","%","⁻¹","!","³","³√(","%","⌟"};
+    public static String[] addAnswerAfterIt = new String[]{"ln(","log(","Abs(","√(","sin(","cos(","tan(","sin⁻¹(","cos⁻¹(","tan⁻¹("};
     public static ArrayList<String> displayStringArray = new ArrayList<>();
     public static String validExpression = "";
 
@@ -40,7 +42,54 @@ public class Calculate {
         operatorHashMap.put("P","#&");
         operatorHashMap.put("⌟","|");
         operatorHashMap.put("≡", "$");
+        operatorHashMap.put("Abs(","abs(");
+
+
     }
+    public static void initializeShiftSymbol(){
+        buttonShiftHashMap.put(".","Ran#");
+        buttonShiftHashMap.put("×₁₀","π");
+        buttonShiftHashMap.put("0","Rnd");
+        buttonShiftHashMap.put("1","STAT");
+        buttonShiftHashMap.put("Ans","DRG>");
+        buttonShiftHashMap.put("2","CMPLX");
+        buttonShiftHashMap.put("3","BASE");
+        buttonShiftHashMap.put("+","Pol");
+        buttonShiftHashMap.put("-","Rec");
+        buttonShiftHashMap.put("4","MATRIX");
+        buttonShiftHashMap.put("5","VECTOR");
+        buttonShiftHashMap.put("×","P");
+        buttonShiftHashMap.put("÷","C");
+        buttonShiftHashMap.put("7","CONST");
+        buttonShiftHashMap.put("8","CONV");
+        buttonShiftHashMap.put("9","CLR");
+        buttonShiftHashMap.put("DEL","INS");
+        buttonShiftHashMap.put("AC","OFF");
+        buttonShiftHashMap.put("RCL","STO");
+        buttonShiftHashMap.put("ENG","<-");
+        buttonShiftHashMap.put("(","%");
+        buttonShiftHashMap.put(")",",");
+        buttonShiftHashMap.put("S<=>D","abc<=>d/c");
+        buttonShiftHashMap.put("M+","M-");
+        buttonShiftHashMap.put("(-)","<");
+        buttonShiftHashMap.put("°","<-");
+        buttonShiftHashMap.put("hyp","Abs(");
+        buttonShiftHashMap.put("sin(","sin⁻¹(");
+        buttonShiftHashMap.put("cos(","cos⁻¹(");
+        buttonShiftHashMap.put("tan(","tan⁻¹(");
+        buttonShiftHashMap.put("⌟","⌟⌟");
+        buttonShiftHashMap.put("√(","³√(");
+        buttonShiftHashMap.put("²","³");
+        buttonShiftHashMap.put("²","³");
+        buttonShiftHashMap.put("^(","³√(");
+        buttonShiftHashMap.put("log(","₁₀^(");
+        buttonShiftHashMap.put("ln(","e^(");
+        buttonShiftHashMap.put("calc","SOLVE");
+        buttonShiftHashMap.put("∫(","d/dx(");
+        buttonShiftHashMap.put("⁻¹","!");
+        buttonShiftHashMap.put("log(","Σ(");
+    }
+
 
     public static void convertVisualToExpression() {
         validExpression = "";
@@ -79,9 +128,19 @@ public class Calculate {
     }
 
     public static double solveUsingLibrary() {
-        Expression e;
         FunctionAndOperator fo = new FunctionAndOperator();
-        e = new ExpressionBuilder(validExpression).operator(fo.factorial, fo.combination, fo.permutation, fo.fraction, fo.modulo).function(fo.logb).build();
+        Expression e = new ExpressionBuilder(validExpression)
+                .operator(fo.factorial, fo.combination, fo.permutation, fo.fraction)
+                .functions(fo.logb,fo.quadratic)
+                .variables("x", "y")
+                .build();
+
+        if(MainActivity.substitute == true){
+            ValidationResult res = e.validate();
+            e.setVariable("x", Double.parseDouble(MainActivity.txtResult.getText().toString()));
+            res = e.validate();
+        }
+
         answer = e.evaluate();
         operatorHashMap.put("Ans",answer+"");
         return answer;
