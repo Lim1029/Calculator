@@ -78,24 +78,28 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="#00FFFFFF"
                 android:tag="SHIFT"
-                android:text="Shift"
-                android:textAllCaps="false" />
+                android:textAllCaps="false"
+                android:visibility="visible" />
 
             <Button
                 android:id="@+id/btnAlpha"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="#00FFFFFF"
                 android:tag="alpha"
-                android:text="alpha"
-                android:textAllCaps="false" />
+                android:textAllCaps="false"
+                android:visibility="visible" />
 
             <Button
                 android:id="@+id/btnUp"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
+                android:background="#00FFFFFF"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -104,18 +108,20 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="#00FFFFFF"
                 android:tag="MODE"
-                android:text="mode"
-                android:textAllCaps="false" />
+                android:textAllCaps="false"
+                android:visibility="visible" />
 
             <Button
                 android:id="@+id/btnOn"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="#00FFFFFF"
                 android:tag="on"
-                android:text="on"
-                android:textAllCaps="false" />
+                android:textAllCaps="false"
+                android:visibility="visible" />
 
         </LinearLayout>
 
@@ -130,32 +136,38 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="#00FFFFFF"
                 android:tag="quadratic("
-                android:text="quadratic"
-                android:textAllCaps="false" />
+                android:textAllCaps="false"
+                android:visibility="visible" />
 
             <Button
                 android:id="@+id/btnLeft"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:textAllCaps="false" />
+                android:background="#00FFFFFF"
+                android:textAllCaps="false"
+                android:visibility="visible" />
 
             <Button
                 android:id="@+id/btnRight"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="#00FFFFFF"
                 android:fontFamily="cursive"
-                android:textAllCaps="false" />
+                android:textAllCaps="false"
+                android:visibility="visible" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="#00FFFFFF"
                 android:tag="abs("
-                android:text="abs"
-                android:textAllCaps="false" />
+                android:textAllCaps="false"
+                android:visibility="visible" />
 
         </LinearLayout>
 
@@ -170,8 +182,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="#00FFFFFF"
                 android:tag="CALC"
-                android:text="calc"
                 android:textAllCaps="false" />
 
             <Button
@@ -179,8 +191,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="#00FFFFFF"
                 android:tag="∫("
-                android:text="∫"
                 android:textAllCaps="false" />
 
             <Button
@@ -188,6 +200,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
+                android:background="#00FFFFFF"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -196,9 +209,9 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="#00FFFFFF"
                 android:fontFamily="cursive"
                 android:tag="⁻¹"
-                android:text="x⁻¹"
                 android:textAllCaps="false" />
 
             <Button
@@ -206,8 +219,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="#00FFFFFF"
                 android:tag="logb("
-                android:text="Logb"
                 android:textAllCaps="false" />
 
         </LinearLayout>
@@ -223,8 +236,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="#00FFFFFF"
                 android:tag="⌟"
-                android:text="⌟"
                 android:textAllCaps="false"
                 android:textSize="12sp" />
 
@@ -233,8 +246,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="#00FFFFFF"
                 android:tag="√("
-                android:text="√□"
                 android:textAllCaps="false" />
 
             <Button
@@ -242,8 +255,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="#00FFFFFF"
                 android:tag="²"
-                android:text="x²"
                 android:textAllCaps="false" />
 
             <Button
@@ -251,8 +264,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="#00FFFFFF"
                 android:tag="^("
-                android:text="ₓ□"
                 android:textAllCaps="false" />
 
             <Button
@@ -260,8 +273,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="#00FFFFFF"
                 android:tag="log("
-                android:text="log"
                 android:textAllCaps="false" />
 
             <Button
@@ -269,8 +282,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="#00FFFFFF"
                 android:tag="ln("
-                android:text="ln"
                 android:textAllCaps="false" />
 
         </LinearLayout>
@@ -286,6 +299,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:alpha="0"
                 android:tag="≡"
                 android:text="≡"
                 android:textAllCaps="false" />
@@ -295,6 +309,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:alpha="0"
                 android:tag="°"
                 android:text=".,,,"
                 android:textAllCaps="false" />
@@ -304,6 +319,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:alpha="0"
                 android:tag="hyp"
                 android:text="hyp"
                 android:textAllCaps="false" />
@@ -313,6 +329,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:alpha="0"
                 android:tag="sin("
                 android:text="sin"
                 android:textAllCaps="false"
@@ -325,6 +342,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:alpha="0"
                 android:tag="cos("
                 android:text="cos"
                 android:textAllCaps="false"
@@ -335,6 +353,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:alpha="0"
                 android:tag="tan("
                 android:text="tan"
                 android:textAllCaps="false"
@@ -353,6 +372,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:alpha="0"
                 android:tag="rcl"
                 android:text="RCL"
                 android:textAllCaps="false"
@@ -363,6 +383,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:alpha="0"
                 android:tag="ENG"
                 android:text="ENG"
                 android:textAllCaps="false" />
@@ -372,6 +393,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:alpha="0"
                 android:tag="("
                 android:text="("
                 android:textAllCaps="false"
@@ -382,6 +404,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:alpha="0"
                 android:tag=")"
                 android:text=")"
                 android:textAllCaps="false"
@@ -392,6 +415,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:alpha="0"
                 android:tag="sd"
                 android:text="0"
                 android:textAllCaps="false" />
@@ -401,6 +425,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:alpha="0"
                 android:tag="M+"
                 android:text="M+"
                 android:textAllCaps="false" />
@@ -418,6 +443,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:alpha="0"
                 android:tag="7"
                 android:text="7"
                 android:textAllCaps="false"
@@ -428,6 +454,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:alpha="0"
                 android:tag="8"
                 android:text="8"
                 android:textAllCaps="false"
@@ -438,6 +465,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:alpha="0"
                 android:tag="9"
                 android:text="9"
                 android:textAllCaps="false"
@@ -448,6 +476,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:alpha="0"
                 android:tag="del"
                 android:text="DEL"
                 android:textAllCaps="false"
@@ -458,6 +487,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:alpha="0"
                 android:tag="ac"
                 android:text="AC"
                 android:textAllCaps="false"
@@ -476,6 +506,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:alpha="0"
                 android:tag="4"
                 android:text="4"
                 android:textAllCaps="false"
@@ -486,8 +517,9 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:alpha="0"
+                android:background="#00000000"
                 android:tag="5"
-                android:text="5"
                 android:textAllCaps="false"
                 android:textSize="18sp" />
 
@@ -496,6 +528,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:alpha="0"
                 android:tag="6"
                 android:text="6"
                 android:textAllCaps="false"
@@ -506,6 +539,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:alpha="0"
                 android:tag="×"
                 android:text="×"
                 android:textAllCaps="false"
@@ -516,6 +550,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:alpha="0"
                 android:tag="÷"
                 android:text="\u00f7"
                 android:textAllCaps="false"
@@ -534,6 +569,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:alpha="0"
                 android:tag="1"
                 android:text="1"
                 android:textAllCaps="false"
@@ -544,6 +580,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:alpha="0"
                 android:tag="2"
                 android:text="2"
                 android:textAllCaps="false"
@@ -554,6 +591,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:alpha="0"
                 android:tag="3"
                 android:text="3"
                 android:textAllCaps="false"
@@ -564,6 +602,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:alpha="0"
                 android:tag="+"
                 android:text="+"
                 android:textAllCaps="false"
@@ -574,6 +613,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:alpha="0"
                 android:tag="-"
                 android:text="-"
                 android:textAllCaps="false"
@@ -593,6 +633,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:alpha="0"
                 android:tag="0"
                 android:text="0"
                 android:textAllCaps="false"
@@ -604,6 +645,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:alpha="0"
                 android:tag="."
                 android:text="."
                 android:textAllCaps="false"
@@ -615,6 +657,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:alpha="0"
                 android:tag="×₁₀"
                 android:text="×10ᵡ"
                 android:textAllCaps="false"
@@ -629,6 +672,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:alpha="0"
                 android:tag="Ans"
                 android:text="Ans"
                 android:textAllCaps="false"
@@ -641,6 +685,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:alpha="0"
                 android:tag="="
                 android:text="="
                 android:textAllCaps="false"

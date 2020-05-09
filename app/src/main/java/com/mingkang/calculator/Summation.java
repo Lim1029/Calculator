@@ -41,7 +41,13 @@ public class Summation extends AppCompatActivity implements View.OnClickListener
         increment = Double.parseDouble(etincrement.getText().toString());
 
         int check=1;
+        Expression e = new ExpressionBuilder(equation)
+                .variables("x","X")
+                .build();
+
+        ValidationResult validate = e.validate();
         if(equation == "" || start == 0 || end == 0 || increment== 0) check=0;
+        if(!validate.isValid()) check=;
         if(end<start && increment>0) check=-1;
         if(start>end && increment<0) check=-2;
 
@@ -49,7 +55,7 @@ public class Summation extends AppCompatActivity implements View.OnClickListener
             answer.setText(solve()+"");
         }
         else if (check==0){
-            Toast.makeText(Summation.this, "Values cannot bo empty", Toast.LENGTH_LONG).show();
+            Toast.makeText(Summation.this, "Values cannot be empty", Toast.LENGTH_LONG).show();
         }
         else if(check==-1){
             Toast.makeText(Summation.this, "End must be larger than start for positive increment", Toast.LENGTH_LONG).show();
@@ -62,13 +68,14 @@ public class Summation extends AppCompatActivity implements View.OnClickListener
     private double solve(){
         double ans=0;
         for(double i=start;i<=end;i+=increment){
-//            ans +=
+            Expression e = new ExpressionBuilder(equation)
+                    .variables("x")
+                    .build()
+                    .setVariable("x",i);
+            double tempans = e.evaluate();
+            ans += tempans;
         }
+        return ans;
     }
 
 }
-
-
-//    Expression e = new ExpressionBuilder()
-//            .variable("x")
-//            .build();

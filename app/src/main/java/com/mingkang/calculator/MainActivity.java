@@ -2,6 +2,7 @@ package com.mingkang.calculator;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.icu.lang.UCharacterEnums;
 import android.os.Build;
@@ -43,7 +44,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class MainActivity extends Activity implements View.OnClickListener {
+public class MainActivity extends Activity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener{
 
     public static EditText txtResult;
     private TextView txtResult2;
@@ -55,6 +56,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     public static boolean quadraticOperation, substitute, imaginaryRoot;
     private View root;
     private PopupMenu popup;
+    private Intent intent;
 
     @Override
     
@@ -136,7 +138,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         findViewById(R.id.btnExponent).setOnClickListener(this);
         findViewById(R.id.btnShift).setOnClickListener(this);
         //findViewById(R.id.btnPercent).setOnClickListener(this);
-        //findViewById(R.id.btnQuadratic).setOnClickListener(this);
+        findViewById(R.id.btnQuadratic).setOnClickListener(this);
         findViewById(R.id.btnCalc).setOnClickListener(this);
         findViewById(R.id.btnMode).setOnClickListener(this);
 
@@ -237,7 +239,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 Button button = root.findViewWithTag(entry.getKey());
                 if(button!=null) {
                     button.setTag(entry.getValue());
-                    button.setText(entry.getValue());
                 }
             }
         }
@@ -246,7 +247,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 Button button = root.findViewWithTag(entry.getValue());
                 if(button!=null) {
                     button.setTag(entry.getKey());
-                    button.setText(entry.getKey());
                 }
             }
         }
@@ -256,15 +256,34 @@ public class MainActivity extends Activity implements View.OnClickListener {
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.solveQuadraticEqn:
+                onClick(findViewById(R.id.btnQuadratic));
                 return true;
             case R.id.calcSequenceSummation:
+                Intent intent = new Intent(MainActivity.this, Summation.class);
+                startActivity(intent);
+
                 return true;
             default:
                 return false;
         }
     }
-    
-    
-    
 
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        );
+    }
 }
