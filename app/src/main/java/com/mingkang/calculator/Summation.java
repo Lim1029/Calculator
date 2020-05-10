@@ -47,7 +47,7 @@ public class Summation extends AppCompatActivity implements View.OnClickListener
 
         ValidationResult validate = e.validate();
         if(equation == "" || start == 0 || end == 0 || increment== 0) check=0;
-        if(!validate.isValid()) check=;
+//        if(!validate.isValid()) check=;
         if(end<start && increment>0) check=-1;
         if(start>end && increment<0) check=-2;
 

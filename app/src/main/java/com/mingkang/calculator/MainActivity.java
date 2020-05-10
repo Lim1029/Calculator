@@ -84,6 +84,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Popu
         Calculate.initializeOperator();
         Calculate.initializeShiftSymbol();
 
+        findViewById(R.id.txtM).setVisibility(View.VISIBLE);
     }
 
     private void InitialiseButton(){
@@ -227,6 +228,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Popu
                 break;
         }
         txtResult.setSelection(txtResult.length());
+
         if(shift && !state) btnShiftTapped();
     }
 
@@ -235,6 +237,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Popu
         else shift = true;
 
         if (shift == true) {
+            findViewById(R.id.txtS).setVisibility(View.VISIBLE);
             for(Map.Entry<String,String> entry : Calculate.buttonShiftHashMap.entrySet()){
                 Button button = root.findViewWithTag(entry.getKey());
                 if(button!=null) {
@@ -243,6 +246,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Popu
             }
         }
         else {
+            findViewById(R.id.txtS).setVisibility(View.INVISIBLE);
             for(Map.Entry<String,String> entry : Calculate.buttonShiftHashMap.entrySet()){
                 Button button = root.findViewWithTag(entry.getValue());
                 if(button!=null) {

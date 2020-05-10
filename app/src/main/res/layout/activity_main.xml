@@ -21,6 +21,162 @@
         app:layout_constraintStart_toStartOf="@+id/guideline3"
         app:layout_constraintTop_toTopOf="@+id/guideline">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtS"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#000000"
+                android:text="S"
+                android:textSize="12sp"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/txtA"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#000000"
+                android:text="A"
+                android:textSize="12sp"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/txtM"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="M"
+                android:textSize="12sp"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/txtSTO"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="STO"
+                android:textSize="12sp"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/txtRCL"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="RCL"
+                android:textSize="12sp"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/txtSTAT"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="STAT"
+                android:textSize="12sp"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/txtCMPLX"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="CMPLX"
+                android:textSize="12sp"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/txtMAT"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="MAT"
+                android:textSize="12sp"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/txtVCT"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="VCT"
+                android:textSize="12sp"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/txtD"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="D"
+                android:textSize="12sp"
+                android:background="#000000"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/txtR"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="R"
+                android:textSize="12sp"
+                android:background="#000000"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/txtG"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="G"
+                android:textSize="12sp"
+                android:background="#000000"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/txtFIX"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="FIX"
+                android:textSize="12sp"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/txtSCI"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="SCI"
+                android:textSize="12sp"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/txtMath"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Math"
+                android:textSize="12sp"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/txtDisp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Disp"
+                android:textSize="12sp"
+                android:visibility="invisible" />
+
+        </LinearLayout>
+
         <EditText
             android:id="@+id/txtResult"
             android:layout_width="match_parent"
@@ -721,14 +877,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.98" />
+        app:layout_constraintGuide_percent="0.985" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.28" />
+        app:layout_constraintGuide_percent="0.275" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline6"
