@@ -2,7 +2,9 @@ package com.mingkang.calculator;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -41,15 +43,10 @@ public class Summation extends AppCompatActivity implements View.OnClickListener
         increment = Double.parseDouble(etincrement.getText().toString());
 
         int check=1;
-        Expression e = new ExpressionBuilder(equation)
-                .variables("x","X")
-                .build();
-
-        ValidationResult validate = e.validate();
         if(equation == "" || start == 0 || end == 0 || increment== 0) check=0;
-//        if(!validate.isValid()) check=;
         if(end<start && increment>0) check=-1;
         if(start>end && increment<0) check=-2;
+        if(!checkString()) check=-3;
 
         if(check==1){
             answer.setText(solve()+"");
@@ -63,19 +60,39 @@ public class Summation extends AppCompatActivity implements View.OnClickListener
         else if(check==-2){
             Toast.makeText(Summation.this, "Start must be larger than end for negative increment", Toast.LENGTH_LONG).show();
         }
+        else if(check==-3){
+            Toast.makeText(Summation.this, "Equation must only include x as variable", Toast.LENGTH_LONG).show();
+        }
     }
 
     private double solve(){
         double ans=0;
         for(double i=start;i<=end;i+=increment){
-            Expression e = new ExpressionBuilder(equation)
+            double tempans = new ExpressionBuilder(equation)
                     .variables("x")
                     .build()
-                    .setVariable("x",i);
-            double tempans = e.evaluate();
+                    .setVariable("x",i)
+                    .evaluate();
             ans += tempans;
         }
         return ans;
+    }
+
+    private boolean checkString(){
+        char[] valid = {'+', '-', '*', '/', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'x', '^', '(' , ')'};
+        for(int i=0;i<equation.length();i++){
+            boolean temp=false;
+            for(int j=0;j<valid.length;j++){
+                if(equation.charAt(i) == valid[j]) temp=true;
+            }
+            if(!temp) return false;
+        }
+        return true;
+    }
+
+    public void backButtonPressed(View v){
+        Intent intent = new Intent(Summation.this, MainActivity.class);
+        startActivity(intent);
     }
 
 }
