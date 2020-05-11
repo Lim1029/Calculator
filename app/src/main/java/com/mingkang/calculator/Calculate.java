@@ -2,6 +2,8 @@ package com.mingkang.calculator;
 
 import android.util.Log;
 
+import android.widget.EditText;
+import android.widget.TextView;
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import net.objecthunter.exp4j.ValidationResult;
@@ -16,10 +18,11 @@ public class Calculate {
     public static boolean done = false;
     public static HashMap<String, String> operatorHashMap = new HashMap<>();
     public static HashMap<String, String> buttonShiftHashMap = new HashMap<>();
-    public static String[] addAnswerBeforeIt = {"×", "×₁₀","²", "+", "÷", "-","%","⁻¹","!","³","%","⌟"};
-    public static String[] addAnswerAfterIt = new String[]{"ln(","^(","log(","Abs(","√(","sin(","cos(","tan(","sin⁻¹(","cos⁻¹(","tan⁻¹(","³√("};
+    public static String[] addAnswerBeforeIt = {"×", "×₁₀","²", "+", "÷", "-","%","⁻¹","!","³","%","⌟","^("};
+    public static String[] addAnswerAfterIt = new String[]{"ln(","log(","Abs(","√(","sin(","cos(","tan(","sin⁻¹(","cos⁻¹(","tan⁻¹(","³√("};
     public static ArrayList<String> displayStringArray = new ArrayList<>();
     public static String validExpression = "";
+    public static ArrayList<Integer> textCountArray = new ArrayList<>(), focusArray = new ArrayList<>();
 
     public static void initializeOperator() {
         operatorHashMap.put("√(", "sqrt(");
@@ -43,6 +46,7 @@ public class Calculate {
         operatorHashMap.put("⌟","|");
         operatorHashMap.put("≡", "$");
         operatorHashMap.put("Abs(","abs(");
+        refreshFocusArray();
 
 
     }
@@ -90,9 +94,6 @@ public class Calculate {
         buttonShiftHashMap.put("log(","Σ(");
         buttonShiftHashMap.put("MODE","SETUP");
     }    //∫
-    
-
-
     public static void convertVisualToExpression() {
         validExpression = "";
         String convert2 = "";
@@ -103,32 +104,24 @@ public class Calculate {
             validExpression += convert2;
         }
     }
-
-    public static String arrayListToString() {
-        String displayString = "";
-        for (String value : displayStringArray)
-            displayString += value;
-        return displayString;
-    }
-
     public static void populateCalculationArray(String temp) {
+        if(done)
+            resetPartially();
         if (temp.equals("Ans")) {
-            displayStringArray.add(temp);
+            populateString(temp);
             done = false;
         } else if (done) {
             if (Arrays.asList(addAnswerBeforeIt).contains(temp)) {
-                displayStringArray.add("Ans");
-                displayStringArray.add(temp);
+                populateString("Ans");
+                populateString(temp);
             } else if (Arrays.asList(addAnswerAfterIt).contains(temp)) {
-                displayStringArray.add(temp);
-                displayStringArray.add("Ans");
+                populateString(temp);
+                populateString("Ans");
             } else
-                displayStringArray.add(temp);
+                populateString(temp);
             done = false;
-        } else displayStringArray.add(temp);
-        //return displayStringArray;
+        } else populateString(temp);
     }
-
     public static double solveUsingLibrary() {
         FunctionAndOperator fo = new FunctionAndOperator();
         Expression e = new ExpressionBuilder(validExpression)
@@ -147,9 +140,120 @@ public class Calculate {
         operatorHashMap.put("Ans",answer+"");
         return answer;
     }
-
     public static void resetEverything() {
         done = false;
-        displayStringArray.clear();
+        focusArray = new ArrayList<>();
+        textCountArray = new ArrayList<>();
+        validExpression = "";
+
+        refreshFocusArray();
+        MainActivity.txtResult.getText().clear();
+    }
+    public static void resetPartially(){
+        focusArray = new ArrayList<>();
+        textCountArray = new ArrayList<>();
+        validExpression = "";
+
+        refreshFocusArray();
+        MainActivity.txtResult.getText().clear();
+    }
+    public static void refreshFocusArray() {
+        focusArray = new ArrayList<>();
+        focusArray.add(0);
+        for (int number : textCountArray) {
+            focusArray.add(focusArray.get(focusArray.size() - 1) + number);
+        }
+    }
+    public static void delete() {
+        int num = 0;
+        int i;
+        for (i = 0; i < textCountArray.size(); i++) {
+            if (num != MainActivity.txtResult.getSelectionStart())
+                num += textCountArray.get(i);
+            else break;
+        }
+        MainActivity.txtResult.getText().delete(MainActivity.txtResult.getSelectionStart() - textCountArray.get(i - 1), MainActivity.txtResult.getSelectionStart());
+        textCountArray.remove(i - 1);
+        refreshFocusArray();
+    }
+    public static void stringToDisplayStringArray() {
+        displayStringArray = new ArrayList<>();
+        String string = MainActivity.txtResult.getText().toString();
+        int position = 0;
+        for (int i = 1; i < focusArray.size(); i++) {
+            displayStringArray.add(string.substring(position, focusArray.get(i)));
+            position = focusArray.get(i);
+        }
+    }
+    public static void setSelectionPosition(int position) {
+        if (focusArray.contains(position)) {
+            MainActivity.txtResult.setSelection(position);
+        } else {
+            boolean repeat = true;
+            int focus=0;
+            while (repeat) {
+                int diff = Integer.MAX_VALUE;
+                for (int i=1;i<focusArray.size();i++) {
+                    if(Math.abs(focusArray.get(i)-position)<=diff){
+                        focus=focusArray.get(i);
+                        diff=Math.abs(focusArray.get(i)-position);
+                    }
+
+                }
+                if (focus <= position) {
+                    position++;
+                    repeat = true;
+                } else {
+                    repeat = false;
+                }
+
+            }
+            MainActivity.txtResult.setSelection(focus);
+
+        }
+//        convertToDisplayStringArray();
+//        textView.setText(Calculate.arrayListToString(stringArray));
+    }
+    public static void setSelectionPosition2(int position) {
+        if (focusArray.contains(position)) {
+            MainActivity.txtResult.setSelection(position);
+        } else {
+            boolean repeat = true;
+            int focus=0;
+            while (repeat) {
+                int diff = Integer.MAX_VALUE;
+                for (int i=1;i<focusArray.size();i++) {
+                    if(Math.abs(focusArray.get(i)-position)<=diff){
+                        focus=focusArray.get(i);
+                        diff=Math.abs(focusArray.get(i)-position);
+                    }
+
+                }
+                if (focus >= position) {
+                    position--;
+                    repeat = true;
+                } else {
+                    repeat = false;
+                }
+
+            }
+            MainActivity.txtResult.setSelection(focus);
+
+        }
+//        convertToDisplayStringArray();
+//        textView.setText(Calculate.arrayListToString(stringArray));
+    }
+    public static void populateString(String value){
+        MainActivity.txtResult.getText().insert(MainActivity.txtResult.getSelectionStart(), value);
+        textCountArray.add(focusArray.indexOf(MainActivity.txtResult.getSelectionStart() - value.length()), value.length());
+        refreshFocusArray();
+    }
+    public static void rightButtonPressed() {
+        MainActivity.txtResult.setSelection(MainActivity.txtResult.getSelectionStart() + 1);
+        setSelectionPosition(MainActivity.txtResult.getSelectionStart());
+    }
+    public static void leftButtonPressed(){
+        MainActivity.txtResult.setSelection(MainActivity.txtResult.getSelectionStart() - 1);
+        setSelectionPosition2(MainActivity.txtResult.getSelectionStart());
     }
 }

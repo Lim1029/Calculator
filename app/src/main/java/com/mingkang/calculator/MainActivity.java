@@ -59,7 +59,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Popu
     private Intent intent;
 
     @Override
-    
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         root = LayoutInflater.from(this).inflate(R.layout.activity_main, null);
@@ -86,7 +85,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Popu
 
         findViewById(R.id.txtM).setVisibility(View.VISIBLE);
     }
-
     private void InitialiseButton(){
         btnCos = findViewById(R.id.btnCos);
         btnSin = findViewById(R.id.btnSin);
@@ -101,7 +99,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Popu
         //btnPercent = findViewById(R.id.btnPercent);
         btnRightBracket = findViewById(R.id.btnRightBracket);
     }
-
     private void InitialiseOnClickButton() {
         findViewById(R.id.btnEqual).setOnClickListener(this);
         findViewById(R.id.btn0).setOnClickListener(this);
@@ -142,25 +139,26 @@ public class MainActivity extends Activity implements View.OnClickListener, Popu
         findViewById(R.id.btnQuadratic).setOnClickListener(this);
         findViewById(R.id.btnCalc).setOnClickListener(this);
         findViewById(R.id.btnMode).setOnClickListener(this);
+        findViewById(R.id.btnLeft).setOnClickListener(this);
+        findViewById(R.id.btnRight).setOnClickListener(this);
 
         txtResult2.setMovementMethod(new ScrollingMovementMethod());
     }
-
     @Override
     public void onClick(View btnView) {
         switch (btnView.getTag().toString()) {
             case "ac":
                 Calculate.resetEverything();
-                txtResult.setText(Calculate.arrayListToString());
                 txtResult2.setText("0");
                 state = false;
                 break;
             case "=":
                 Calculate.done = true;
                 try {
+                    Calculate.stringToDisplayStringArray();
                     Calculate.convertVisualToExpression();
                     txtResult2.setText(df.format(Calculate.solveUsingLibrary()));
-                    if (quadraticOperation == true) {
+                    if (quadraticOperation) {
                         String solution = df.format(Calculate.solveUsingLibrary());
                         if (imaginaryRoot == true) {
                             txtResult2.setText("X1: " + txtResult2.getText().toString() + "+" + solution + "i" + "\nX2: " + txtResult2.getText().toString() + "-" + solution + "i");
@@ -170,8 +168,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Popu
                         }
                         quadraticOperation = false;
                     }
-                    Calculate.validExpression = "";
-                    Calculate.displayStringArray.clear();
+
                 } catch (Exception e) {
                     Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -179,15 +176,14 @@ public class MainActivity extends Activity implements View.OnClickListener, Popu
                 break;
 
             case "del":
-                if (Calculate.displayStringArray.size() > 0)
-                    Calculate.displayStringArray.remove(Calculate.displayStringArray.size() - 1);
-                txtResult.setText(Calculate.arrayListToString());
+                if(!txtResult.getText().toString().isEmpty()&&txtResult.getSelectionStart()!=0
+                && !Calculate.done)
+                    Calculate.delete();
                 state = false;
                 break;
 
             case "ANS":
                 Calculate.populateCalculationArray("Ans");
-                txtResult.setText(Calculate.arrayListToString());
                 state = false;
                 break;
 
@@ -210,6 +206,18 @@ public class MainActivity extends Activity implements View.OnClickListener, Popu
                 inflater.inflate(R.menu.menu_popup, popup.getMenu());
                 popup.show();
                 break;
+            case "RIGHT":
+                if(txtResult.getSelectionStart()!=txtResult.length()) {
+                    Calculate.rightButtonPressed();
+                    Calculate.done = false;
+                }
+                break;
+            case "LEFT":
+                if(txtResult.getSelectionStart()!=0) {
+                    Calculate.leftButtonPressed();
+                    Calculate.done = false;
+                }
+                break;
 
             default:
                 String temp = btnView.getTag().toString();
@@ -220,18 +228,14 @@ public class MainActivity extends Activity implements View.OnClickListener, Popu
                     substitute = true;
              } else{
                     Calculate.populateCalculationArray(temp);
-                    txtResult.setText(Calculate.arrayListToString());
                 }
-//                populateCalculationString(temp);
 
                 state = false;
                 break;
         }
-        txtResult.setSelection(txtResult.length());
 
         if(shift && !state) btnShiftTapped();
     }
-
     private void btnShiftTapped() {
         if (shift) shift = false;
         else shift = true;
@@ -255,7 +259,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Popu
             }
         }
     }
-
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
@@ -271,13 +274,10 @@ public class MainActivity extends Activity implements View.OnClickListener, Popu
                 return false;
         }
     }
-
-
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -290,4 +290,5 @@ public class MainActivity extends Activity implements View.OnClickListener, Popu
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
         );
     }
+
 }
