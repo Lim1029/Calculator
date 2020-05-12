@@ -217,7 +217,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:width="80dp"
-        android:tag="÷"
+        android:tag="/"
         android:text="÷"
         android:textAlignment="center"
         android:textIsSelectable="false"

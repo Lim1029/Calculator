@@ -160,7 +160,7 @@ public class BaseConversion extends AppCompatActivity implements View.OnClickLis
 
             default:
                 if(result.charAt(result.length()-1) == '+' || result.charAt(result.length()-1) == '-' ||
-                    result.charAt(result.length()-1) == '×' || result.charAt(result.length()-1) == '÷') {
+                    result.charAt(result.length()-1) == '×' || result.charAt(result.length()-1) == '/') {
                     Toast.makeText(this, "Operator cannot be tapped multiple times repeatedly",Toast.LENGTH_SHORT).show();
                 } else {
                     String temp = btnView.getTag().toString();
@@ -197,7 +197,7 @@ public class BaseConversion extends AppCompatActivity implements View.OnClickLis
         ArrayList<String> number = new ArrayList<>();
         ArrayList<Character> operator = new ArrayList<>();
         for(int i=0; i<expression.length(); i++) {
-            if(expression.charAt(i) == '+' || expression.charAt(i) == '-' || expression.charAt(i) == '×' || expression.charAt(i) == '÷') {
+            if(expression.charAt(i) == '+' || expression.charAt(i) == '-' || expression.charAt(i) == '×' || expression.charAt(i) == '/') {
                 stopIndex = i;
                 number.add(expression.substring(startIndex == 0? 0: startIndex+1,stopIndex));
                 operator.add(expression.charAt(i));
