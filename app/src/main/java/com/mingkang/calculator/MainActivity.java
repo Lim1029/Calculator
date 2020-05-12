@@ -265,7 +265,14 @@ public class MainActivity extends Activity implements View.OnClickListener, Popu
             case R.id.calcSequenceSummation:
                 Intent intent = new Intent(MainActivity.this, Summation.class);
                 startActivity(intent);
-
+                return true;
+            case R.id.chgBase:
+                intent = new Intent(MainActivity.this, BaseConversion.class);
+                startActivity(intent);
+                return true;
+            case R.id.calcSimultaneousEqn:
+                //Intent intent = new Intent(MainActivity.this, SimultaneousEqn.class);
+                //startActivity(intent);
                 return true;
             default:
                 return false;
