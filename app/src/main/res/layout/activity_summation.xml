@@ -9,7 +9,7 @@
 
 
     <TextView
-        android:id="@+id/Ttile"
+        android:id="@+id/summation_ttile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -24,7 +24,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/variableStart"
+        android:id="@+id/summation_variableStart"
         android:layout_width="70dp"
         android:layout_height="42dp"
         android:layout_marginStart="32dp"
@@ -39,7 +39,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/varaibleEquation"
+        android:id="@+id/summation_varaibleEquation"
         android:layout_width="240dp"
         android:layout_height="46dp"
         android:ems="10"
@@ -47,13 +47,13 @@
         android:textAlignment="center"
         android:textColorHint="#7B000000"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/answer"
+        app:layout_constraintBottom_toTopOf="@+id/summation_answer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/variableEnd"
+        android:id="@+id/summation_variableEnd"
         android:layout_width="70dp"
         android:layout_height="42dp"
         android:layout_marginEnd="32dp"
@@ -68,7 +68,7 @@
         app:layout_constraintVertical_bias="0.499" />
 
     <EditText
-        android:id="@+id/variableIncrement"
+        android:id="@+id/summation_variableIncrement"
         android:layout_width="112dp"
         android:layout_height="44dp"
         android:ems="10"
@@ -84,7 +84,7 @@
         app:layout_constraintVertical_bias="0.502" />
 
     <TextView
-        android:id="@+id/answer"
+        android:id="@+id/summation_answer"
         android:layout_width="232dp"
         android:layout_height="41dp"
         android:layout_marginTop="256dp"
@@ -99,32 +99,32 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btnCalculate"
+        android:id="@+id/summation_btnCalculate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Calculate"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/answer" />
+        app:layout_constraintTop_toBottomOf="@+id/summation_answer" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/summation_instruction"
         android:layout_width="409dp"
         android:layout_height="27dp"
         android:text="Enter summation equation with X as variable"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/varaibleEquation"
+        app:layout_constraintBottom_toTopOf="@+id/summation_varaibleEquation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Ttile"
+        app:layout_constraintTop_toBottomOf="@+id/summation_ttile"
         app:layout_constraintVertical_bias="0.339" />
 
     <Button
-        android:id="@+id/btnBack"
+        android:id="@+id/matric_btnBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="backButtonPressed"

@@ -4,17 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import net.objecthunter.exp4j.Expression;
-import net.objecthunter.exp4j.ExpressionBuilder;
-import net.objecthunter.exp4j.ValidationResult;
 
-import org.w3c.dom.Text;
+import net.objecthunter.exp4j.ExpressionBuilder;
 
 import java.text.DecimalFormat;
 
@@ -28,17 +23,17 @@ public class Summation extends AppCompatActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_summation);
-        findViewById(R.id.btnCalculate).setOnClickListener(Summation.this);
+        findViewById(R.id.summation_btnCalculate).setOnClickListener(Summation.this);
     }
 
     @Override
     public void onClick(View v){
 
-        TextView answer = findViewById(R.id.answer);
-        EditText etequation = findViewById(R.id.varaibleEquation);
-        EditText etstart = findViewById(R.id.variableStart);
-        EditText etend = findViewById(R.id.variableEnd);
-        EditText etincrement = findViewById(R.id.variableIncrement);
+        TextView answer = findViewById(R.id.summation_answer);
+        EditText etequation = findViewById(R.id.summation_varaibleEquation);
+        EditText etstart = findViewById(R.id.summation_variableStart);
+        EditText etend = findViewById(R.id.summation_variableEnd);
+        EditText etincrement = findViewById(R.id.summation_variableIncrement);
 
         equation = etequation.getText().toString();
         start = Double.parseDouble(etstart.getText().toString());
