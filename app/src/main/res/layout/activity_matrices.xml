@@ -75,8 +75,8 @@
             android:layout_margin="5dp"
             android:ems="10"
             android:inputType="numberSigned"
-            android:shadowColor="#000"
             android:textAlignment="center"
+            android:textColor="#000"
             app:layout_column="0"
             app:layout_row="0" />
 
@@ -87,8 +87,8 @@
             android:layout_margin="5dp"
             android:ems="10"
             android:inputType="numberSigned"
-            android:shadowColor="#000"
             android:textAlignment="center"
+            android:textColor="#000"
             app:layout_column="1"
             app:layout_row="0" />
 
@@ -99,8 +99,8 @@
             android:layout_margin="5dp"
             android:ems="10"
             android:inputType="numberSigned"
-            android:shadowColor="#000"
             android:textAlignment="center"
+            android:textColor="#000"
             app:layout_column="2"
             app:layout_row="0" />
 
@@ -111,8 +111,8 @@
             android:layout_margin="5dp"
             android:ems="10"
             android:inputType="numberSigned"
-            android:shadowColor="#000"
             android:textAlignment="center"
+            android:textColor="#000"
             app:layout_column="0"
             app:layout_row="1" />
 
@@ -123,8 +123,8 @@
             android:layout_margin="5dp"
             android:ems="10"
             android:inputType="numberSigned"
-            android:shadowColor="#000"
             android:textAlignment="center"
+            android:textColor="#000"
             app:layout_column="1"
             app:layout_row="1" />
 
@@ -135,8 +135,8 @@
             android:layout_margin="5dp"
             android:ems="10"
             android:inputType="numberSigned"
-            android:shadowColor="#000"
             android:textAlignment="center"
+            android:textColor="#000"
             app:layout_column="2"
             app:layout_row="1" />
 
@@ -147,7 +147,8 @@
             android:layout_margin="5dp"
             android:ems="10"
             android:inputType="numberSigned"
-            android:shadowColor="#000"
+            android:textAlignment="center"
+            android:textColor="#000"
             app:layout_column="0"
             app:layout_row="2" />
 
@@ -158,8 +159,8 @@
             android:layout_margin="5dp"
             android:ems="10"
             android:inputType="numberSigned"
-            android:shadowColor="#000"
             android:textAlignment="center"
+            android:textColor="#000"
             app:layout_column="1"
             app:layout_row="2" />
 
@@ -170,8 +171,8 @@
             android:layout_margin="5dp"
             android:ems="10"
             android:inputType="numberSigned"
-            android:shadowColor="#000"
             android:textAlignment="center"
+            android:textColor="#000"
             app:layout_column="2"
             app:layout_row="2" />
 
@@ -275,7 +276,7 @@
             android:layout_height="75dp"
             android:tag="x"
             android:text="x"
-            android:textSize="20sp"
+            android:textSize="15sp"
             app:layout_column="2"
             app:layout_row="0" />
 
@@ -294,17 +295,17 @@
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:tag="DET("
-            android:text="det()"
+            android:text="det("
             android:textSize="15sp"
             app:layout_column="3"
             app:layout_row="0" />
 
         <Button
-            android:id="@+id/matric_btnAnswer"
+            android:id="@+id/matric_btnRightBracket"
             android:layout_width="75dp"
             android:layout_height="75dp"
-            android:tag="ANS"
-            android:text="Ans"
+            android:tag=")"
+            android:text=")"
             android:textSize="15sp"
             app:layout_column="4"
             app:layout_row="1" />
@@ -314,7 +315,7 @@
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:tag="TRN("
-            android:text="Trn()"
+            android:text="Trn("
             android:textSize="15sp"
             app:layout_column="3"
             app:layout_row="1" />
@@ -377,6 +378,7 @@
             android:inputType="numberSigned"
             android:shadowColor="#000"
             android:textAlignment="center"
+            android:textColor="#000"
             app:layout_column="1"
             app:layout_row="0" />
 
@@ -389,6 +391,7 @@
             android:inputType="numberSigned"
             android:shadowColor="#000"
             android:textAlignment="center"
+            android:textColor="#000"
             app:layout_column="0"
             app:layout_row="1" />
 
@@ -401,6 +404,7 @@
             android:inputType="numberSigned"
             android:shadowColor="#000"
             android:textAlignment="center"
+            android:textColor="#000"
             app:layout_column="1"
             app:layout_row="1" />
     </androidx.gridlayout.widget.GridLayout>
