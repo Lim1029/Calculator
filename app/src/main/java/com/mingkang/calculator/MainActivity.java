@@ -263,7 +263,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Popu
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.solveQuadraticEqn:
-                onClick(findViewById(R.id.btnQuadratic));
+                Intent intent1 = new Intent(MainActivity.this, Matrices.class);
+                startActivity(intent1);
+//                onClick(findViewById(R.id.btnQuadratic));
                 return true;
             case R.id.calcSequenceSummation:
                 Intent intent = new Intent(MainActivity.this, Summation.class);
