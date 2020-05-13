@@ -2,6 +2,7 @@ package com.mingkang.calculator;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +21,7 @@ public class BaseConversion extends AppCompatActivity implements View.OnClickLis
     private String lastDec = "", lastBin = "", lastOct = "", lastHex = "";
     private String edtBin, edtDec, edtOct, edtHex, result;
     private boolean fromBin = false, fromDec = false, fromOct = false, fromHex = false, clear = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
