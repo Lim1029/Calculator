@@ -8,5 +8,9 @@
         android:title="Solve quadratic equation"/>
     <item android:id="@+id/calcSequenceSummation"
         android:title="Calculate Summation of Sequence"/>
+    <item android:id="@+id/calcSimultaneousEqn"
+        android:title="Calculate Simultaneous Equation"/>
+    <item android:id="@+id/chgBase"
+        android:title="Change Base"/>
 
 </menu>

@@ -186,7 +186,7 @@
             android:cursorVisible="true"
             android:editable="false"
             android:ems="10"
-            android:inputType="numberDecimal"
+            android:inputType="text"
             android:scrollbarAlwaysDrawHorizontalTrack="false"
             android:scrollbarAlwaysDrawVerticalTrack="false"
             android:scrollbars="horizontal"
@@ -303,6 +303,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="#00FFFFFF"
+                android:tag="LEFT"
                 android:textAllCaps="false"
                 android:visibility="visible" />
 
@@ -313,6 +314,7 @@
                 android:layout_weight="1"
                 android:background="#00FFFFFF"
                 android:fontFamily="cursive"
+                android:tag="RIGHT"
                 android:textAllCaps="false"
                 android:visibility="visible" />
 
