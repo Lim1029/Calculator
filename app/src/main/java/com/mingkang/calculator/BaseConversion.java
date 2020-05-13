@@ -12,11 +12,14 @@ import android.widget.Toast;
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 
+import java.util.ArrayList;
+
 public class BaseConversion extends AppCompatActivity implements View.OnClickListener {
 
     private EditText edtDecimal, edtBinary, edtOctal, edtHexadecimal, txtResult;
     private String lastDec = "", lastBin = "", lastOct = "", lastHex = "";
-    private String edtBin, edtDec, edtOct, edtHex;
+    private String edtBin, edtDec, edtOct, edtHex, result;
+    private boolean fromBin = false, fromDec = false, fromOct = false, fromHex = false, clear = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,144 +50,126 @@ public class BaseConversion extends AppCompatActivity implements View.OnClickLis
         edtDecimal.setOnClickListener(this);
         edtOctal.setOnClickListener(this);
         edtHexadecimal.setOnClickListener(this);
-        //txtResult = findViewById(R.id.edtDecimal_Base);
-
-
     }
 
     @Override
     public void onClick(View btnView) {
+        if(clear) {
+            edtBin = "";
+            edtDec = "";
+            edtOct = "";
+            edtHex = "";
+            clear = false;
+        } else {
+            edtBin = edtBinary.getText().toString();
+            edtDec = edtDecimal.getText().toString();
+            edtOct = edtOctal.getText().toString();
+            edtHex = edtHexadecimal.getText().toString();
+        }
 
-        //Expression e = new ExpressionBuilder(edtDec).build();
-//        if(edtBin.isEmpty() == false) {
-//
-//
-//            if(edtDec.isEmpty() == false) txtResult = findViewById(R.id.edtDecimal_Base);
+        if (!edtBin.isEmpty() && !edtBin.equals(lastBin)) {
+            txtResult = findViewById(R.id.edtBinary_Base);
+            fromBin = true;
+        } else if (!edtDec.isEmpty() && !edtDec.equals(lastDec)) {
+            txtResult = findViewById(R.id.edtDecimal_Base);
+            fromDec = true;
+        } else if (!edtOct.isEmpty() && !edtOct.equals(lastOct)) {
+            txtResult = findViewById(R.id.edtOctal_Base);
+            fromOct = true;
+        } else if (!edtHex.isEmpty() && !edtHex.equals(lastHex)) {
+            txtResult = findViewById(R.id.edtHexadecimal_Base);
+            fromHex = true;
+        }
+        result = txtResult.getText().toString();
 
-//
-//        } else if(edtOct.isEmpty() == false) {
-//            txtResult = findViewById(R.id.edtOctal_Base);
-//
-//        } else if(edtHex.isEmpty() == false) {
-//            //txtResult = findViewById(R.id.edtHexadecimal_Base);
-//
-//        }
-
-        try {
-            switch (btnView.getId()) {
-                case R.id.btnConvertBase:
-
+        switch (btnView.getTag().toString()) {
+            case "convert":
+                try {
                     String decimal = "", binary = "", octal = "", hexadecimal = "";
-                    edtBin = edtBinary.getText().toString();
-                    edtDec = edtDecimal.getText().toString();
-                    edtOct = edtOctal.getText().toString();
-                    edtHex = edtHexadecimal.getText().toString();
+                    if(fromBin) result = convertExpressionToDecimal(result, 2);
+                    else if(fromDec) result = convertExpressionToDecimal(result, 10);
+                    else if(fromOct) result = convertExpressionToDecimal(result, 8);
+                    else if(fromHex) result = convertExpressionToDecimal(result, 16);
 
-//                    Calculate.done = true;
-//                    Calculate.convertVisualToExpression();
-//                    txtResult.setText(Integer.toString((int) Calculate.solveUsingLibrary()));
-//                    Calculate.validExpression = "";
-//                    Calculate.displayStringArray.clear();
-//                    double answer = e.evaluate();
-//                    txtResult.setText(Integer.toString((int) answer));
+                    Expression e = new ExpressionBuilder(result).build();
+                    double answer = e.evaluate();
+                    txtResult.setText(Integer.toString((int) answer));
+                    result = txtResult.getText().toString();
 
-                    if (edtBin.equals(lastBin) && edtOct.equals(lastOct) && edtHex.equals(lastHex)) {
-                        decimal = edtDec;
-                        binary = Integer.toBinaryString(Integer.parseInt(edtDec));
-                        octal = Integer.toOctalString(Integer.parseInt(edtDec));
-                        hexadecimal = Integer.toHexString(Integer.parseInt(edtDec));
-
-                    } else if (edtDec.equals(lastDec) && edtOct.equals(lastOct) && edtHex.equals(lastHex)) {
-                        decimal = toDecimal(edtBin, 2);
-                        binary = edtBin;
-                        octal = Integer.toOctalString(Integer.parseInt(decimal));
-                        hexadecimal = Integer.toHexString(Integer.parseInt(decimal));
-
-                    } else if (edtDec.equals(lastDec) && edtBin.equals(lastBin) && edtHex.equals(lastHex)) {
-                        decimal = toDecimal(edtOct, 8);
-                        binary = Integer.toBinaryString(Integer.parseInt(decimal));
-                        octal = edtOctal.getText().toString();
-                        hexadecimal = Integer.toHexString(Integer.parseInt(decimal));
-
-                    } else if (edtDec.equals(lastDec) && edtBin.equals(lastBin) && edtOct.equals(lastOct)) {
-                        decimal = toDecimal(edtHex, 16);
-                        binary = Integer.toBinaryString(Integer.parseInt(decimal));
-                        octal = Integer.toOctalString(Integer.parseInt(decimal));
-                        hexadecimal = edtHex;
-                    }
+                    decimal = result;
+                    binary = Integer.toBinaryString(Integer.parseInt(result));
+                    octal = Integer.toOctalString(Integer.parseInt(result));
+                    hexadecimal = Integer.toHexString(Integer.parseInt(result));
 
                     edtBinary.setText(binary);
                     edtDecimal.setText(decimal);
                     edtOctal.setText(octal);
                     edtHexadecimal.setText(hexadecimal);
 
-                    lastDec = decimal;
-                    lastBin = binary;
-                    lastOct = octal;
-                    lastHex = hexadecimal;
-                    break;
+                    lastDec = decimal; lastBin = binary; lastOct = octal; lastHex = hexadecimal;
+                    fromBin = false; fromDec = false; fromOct = false; fromHex = false;
+                }
+                catch (Exception E) {
+                    Toast.makeText(this, "No number to be converted", Toast.LENGTH_LONG).show();
+                }
+                break;
 
-                case R.id.btnClear_Base:
-                    edtBinary.setText("");
-                    edtDecimal.setText("");
-                    edtOctal.setText("");
-                    edtHexadecimal.setText("");
-                    lastBin = lastDec = lastOct = lastHex = "";
-                    break;
+            case "clear":
+                clear = true;
+                edtBinary.getText().clear();
+                edtDecimal.getText().clear();
+                edtOctal.getText().clear();
+                edtHexadecimal.getText().clear();
+                lastBin = lastDec = lastOct = lastHex = "";
+                break;
 
-//                case R.id.btnDelete_Base:
-//                    if (Calculate.displayStringArray.size() > 0)
-//                        Calculate.displayStringArray.remove(Calculate.displayStringArray.size() - 1);
-//                    txtResult.setText(Calculate.arrayListToString());
-//                    break;
+            case "del":
+                if (result.length() > 0)
+                    result = result.substring(0,result.length()-1);
+                txtResult.setText(result);
+                break;
 
-                case R.id.btnBack_Base:
-                    Intent intent = new Intent(BaseConversion.this, MainActivity.class);
-                    startActivity(intent);
-                    break;
+            case "back":
+                Intent intent = new Intent(BaseConversion.this, MainActivity.class);
+                startActivity(intent);
+                break;
 
-                case R.id.edtBinary_Base:
-                    edtDecimal.setText("");
-                    edtOctal.setText("");
-                    edtHexadecimal.setText("");
-                    break;
+            case "bin":
+                edtDecimal.setText("");
+                edtOctal.setText("");
+                edtHexadecimal.setText("");
+                break;
 
-                case R.id.edtDecimal_Base:
-                    edtBinary.setText("");
-                    edtOctal.setText("");
-                    edtHexadecimal.setText("");
-                    break;
+            case "dec":
+                edtBinary.setText("");
+                edtOctal.setText("");
+                edtHexadecimal.setText("");
+                break;
 
-                case R.id.edtOctal_Base:
-                    edtBinary.setText("");
-                    edtDecimal.setText("");
-                    edtHexadecimal.setText("");
-                    break;
+            case "oct":
+                edtBinary.setText("");
+                edtDecimal.setText("");
+                edtHexadecimal.setText("");
+                break;
 
-                case R.id.edtHexadecimal_Base:
-                    edtBinary.setText("");
-                    edtDecimal.setText("");
-                    edtOctal.setText("");
-                    break;
+            case "hex":
+                edtBinary.setText("");
+                edtDecimal.setText("");
+                edtOctal.setText("");
+                break;
 
-                default:
+            default:
+                if(result.charAt(result.length()-1) == '+' || result.charAt(result.length()-1) == '-' ||
+                    result.charAt(result.length()-1) == '×' || result.charAt(result.length()-1) == '/') {
+                    Toast.makeText(this, "Operator cannot be tapped multiple times repeatedly",Toast.LENGTH_SHORT).show();
+                } else {
                     String temp = btnView.getTag().toString();
-                    Log.i("TAG", temp);
-//                    Calculate.populateCalculationArray(temp);
-//                    txtResult.setText(Calculate.arrayListToString());
                     txtResult.setText(txtResult.getText().toString() + temp);
-//                    edtDecimal.setText(edtDecimal.getText().toString() + temp);
-
-                    break;
-
-
-            }
-        } catch (Exception E) {
-            Toast.makeText(this, "No number to be converted", Toast.LENGTH_LONG).show();
+                }
+                break;
         }
+        txtResult.setSelection(txtResult.length());
     }
-
-
     static int val(char c) {
         if (c >= '0' && c <= '9')
             return (int)c - '0';
@@ -205,5 +190,31 @@ public class BaseConversion extends AppCompatActivity implements View.OnClickLis
             power = power * base;
         }
         return Integer.toString(num);
+    }
+
+    public String convertExpressionToDecimal(String expression, int base) {
+        int startIndex = 0, stopIndex = 0;
+        ArrayList<String> number = new ArrayList<>();
+        ArrayList<Character> operator = new ArrayList<>();
+        for(int i=0; i<expression.length(); i++) {
+            if(expression.charAt(i) == '+' || expression.charAt(i) == '-' || expression.charAt(i) == '×' || expression.charAt(i) == '/') {
+                stopIndex = i;
+                number.add(expression.substring(startIndex == 0? 0: startIndex+1,stopIndex));
+                operator.add(expression.charAt(i));
+                startIndex = stopIndex;
+            }
+            if(i == expression.length()-1) {
+                number.add(expression.substring(startIndex == 0? 0:startIndex+1));
+                operator.add(' ');
+            }
+        }
+        for(int i=0; i<number.size(); i++) {
+            number.set(i, toDecimal(number.get(i), base));
+        }
+        String exp = "";
+        for(int i=0; i<number.size(); i++) {
+            exp += number.get(i) + operator.get(i);
+        }
+        return exp;
     }
 }
