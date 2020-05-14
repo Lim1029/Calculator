@@ -11,6 +11,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".BaseConversion"></activity>
         <activity android:name=".Matrices"></activity>
+        <activity android:name=".BaseConversion" />
         <activity android:name=".Summation" />
         <activity
             android:name=".MainActivity"
