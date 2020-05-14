@@ -12,6 +12,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Set;
 
 public class Calculate {
     public static double answer = 0;
@@ -124,11 +125,26 @@ public class Calculate {
     }
     public static double solveUsingLibrary() {
         FunctionAndOperator fo = new FunctionAndOperator();
-        Expression e = new ExpressionBuilder(validExpression)
-                .operator(fo.factorial, fo.combination, fo.permutation, fo.fraction)
-                .functions(fo.logb,fo.quadratic)
-                .variables("x", "y")
-                .build();
+        Expression e;
+        if(SetupFragment.unitOfAngle.equals("degree")) {
+                e = new ExpressionBuilder(validExpression)
+                    .operator(fo.factorial, fo.combination, fo.permutation, fo.fraction)
+                    .functions(fo.myDegreeFunctions)
+                    .variables("x", "y")
+                    .build();
+        } else if (SetupFragment.unitOfAngle.equals("radian")) {
+                e = new ExpressionBuilder(validExpression)
+                    .operator(fo.factorial, fo.combination, fo.permutation, fo.fraction)
+                    .functions(fo.myRadianFunctions)
+                    .variables("x", "y")
+                    .build();
+        } else {
+            e = new ExpressionBuilder(validExpression)
+                    .operator(fo.factorial, fo.combination, fo.permutation, fo.fraction)
+                    .functions(fo.myFunctions)
+                    .variables("x", "y")
+                    .build();
+        }
 
         if(MainActivity.substitute == true){
             ValidationResult res = e.validate();

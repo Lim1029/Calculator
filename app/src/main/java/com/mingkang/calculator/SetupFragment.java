@@ -19,7 +19,7 @@ import android.widget.RadioGroup;
 public class SetupFragment extends DialogFragment {
 
     public static String unitOfAngle = "degree";
-    public static int norm = 1;
+    public static String norm = "norm1";
     private Button btnSave, btnCancel;
 
 
@@ -38,14 +38,14 @@ public class SetupFragment extends DialogFragment {
         final RadioGroup rdgNorm = view.findViewById(R.id.rdgNorm);
         btnSave = view.findViewById(R.id.btnSaveSetup);
         btnCancel = view.findViewById(R.id.btnCancelSetup);
+        unitOfAngleRadioGroup.check(view.findViewWithTag(unitOfAngle).getId());
+        rdgNorm.check(view.findViewWithTag(norm).getId());
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 unitOfAngle = view.findViewById(unitOfAngleRadioGroup.getCheckedRadioButtonId()).getTag().toString();
-                norm = Integer.parseInt(view.findViewById(rdgNorm.getCheckedRadioButtonId()).getTag().toString());
-                Log.i("SETUP", "Unit of Angle: "+unitOfAngle);
-                Log.i("SETUP", "Norm: "+norm);
+                norm = view.findViewById(rdgNorm.getCheckedRadioButtonId()).getTag().toString();
                 ((MainActivity)getActivity()).refreshSetting();
                 getDialog().dismiss();
             }

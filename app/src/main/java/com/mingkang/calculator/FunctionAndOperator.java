@@ -28,13 +28,12 @@ public class FunctionAndOperator {
         }
     };
 
-    Function logb = new Function("logb", 2) {
-        @Override
-        public double apply(double... args) {
-            return Math.log(args[0]) / Math.log(args[1]);
-        }
-    };
-
+//    Function logb = new Function("logb", 2) {
+//        @Override
+//        public double apply(double... args) {
+//            return Math.log(args[0]) / Math.log(args[1]);
+//        }
+//    };
 
     Operator combination = new Operator("#|", 2, true, Operator.PRECEDENCE_POWER + 1) {
         @Override
@@ -148,6 +147,151 @@ public class FunctionAndOperator {
                 }
             }
         }
+    };
+
+    Function[] myDegreeFunctions = {
+            new Function("sin"){public double apply(double... args){return Math.sin(Math.toRadians(args[0]));}},
+            new Function("cos"){public double apply(double... args){return Math.cos(Math.toRadians(args[0]));}},
+            new Function("quadratic", 3) {
+                private double findPositiveRoot(double a, double b, double d) {
+                    return (double) (-1 * b + Math.sqrt(d)) / 2 * a;
+                }
+
+                private double findNegativeRoot(double a, double b, double d) {
+                    return (double) (-1 * b - Math.sqrt(d)) / 2 * a;
+                }
+
+                private double findRealRoot(double a, double b) {
+                    return (double) -1 * b / (2 * a);
+                }
+
+                private double findImaginaryPart(double a, double d) {
+                    return (double) Math.sqrt(-d) / (2 * a);
+                }
+                @Override
+                public double apply(double... args) {
+                    double determinant = Math.pow(args[1], 2) - 4 * args[0] * args[2];
+                    count++;
+                    MainActivity.quadraticOperation = true;
+                    if (determinant < 0) {
+                        if (count % 2 == 1) {
+                            MainActivity.imaginaryRoot = true;
+                            return findRealRoot(args[0], args[1]);
+                        } else {
+                            return findImaginaryPart(args[0], determinant);
+                        }
+                    } else {
+                        if (count % 2 == 1) {
+                            return findPositiveRoot(args[0], args[1], determinant);
+                        } else {
+                            return findNegativeRoot(args[0], args[1], determinant);
+                        }
+                    }
+                }
+            //etc...
+    },
+            new Function("logb", 2) {
+                @Override
+                public double apply(double... args) {
+                    return Math.log(args[0]) / Math.log(args[1]);
+                }
+            }
+};
+    Function[] myRadianFunctions = {
+//            new Function("sin"){public double apply(double... args){return Math.sin(args[0]);}},
+//            new Function("cos"){public double apply(double... args){return Math.cos(args[0]);}},
+            new Function("quadratic", 3) {
+                private double findPositiveRoot(double a, double b, double d) {
+                    return (double) (-1 * b + Math.sqrt(d)) / 2 * a;
+                }
+
+                private double findNegativeRoot(double a, double b, double d) {
+                    return (double) (-1 * b - Math.sqrt(d)) / 2 * a;
+                }
+
+                private double findRealRoot(double a, double b) {
+                    return (double) -1 * b / (2 * a);
+                }
+
+                private double findImaginaryPart(double a, double d) {
+                    return (double) Math.sqrt(-d) / (2 * a);
+                }
+                @Override
+                public double apply(double... args) {
+                    double determinant = Math.pow(args[1], 2) - 4 * args[0] * args[2];
+                    count++;
+                    MainActivity.quadraticOperation = true;
+                    if (determinant < 0) {
+                        if (count % 2 == 1) {
+                            MainActivity.imaginaryRoot = true;
+                            return findRealRoot(args[0], args[1]);
+                        } else {
+                            return findImaginaryPart(args[0], determinant);
+                        }
+                    } else {
+                        if (count % 2 == 1) {
+                            return findPositiveRoot(args[0], args[1], determinant);
+                        } else {
+                            return findNegativeRoot(args[0], args[1], determinant);
+                        }
+                    }
+                }
+                //etc...
+            },
+            new Function("logb", 2) {
+                @Override
+                public double apply(double... args) {
+                    return Math.log(args[0]) / Math.log(args[1]);
+                }
+            }
+    };
+    Function[] myFunctions = {
+//            new Function("sin"){public double apply(double... args){return Math.sin(args[0]);}},
+//            new Function("cos"){public double apply(double... args){return Math.cos(args[0]);}},
+            new Function("quadratic", 3) {
+                private double findPositiveRoot(double a, double b, double d) {
+                    return (double) (-1 * b + Math.sqrt(d)) / 2 * a;
+                }
+
+                private double findNegativeRoot(double a, double b, double d) {
+                    return (double) (-1 * b - Math.sqrt(d)) / 2 * a;
+                }
+
+                private double findRealRoot(double a, double b) {
+                    return (double) -1 * b / (2 * a);
+                }
+
+                private double findImaginaryPart(double a, double d) {
+                    return (double) Math.sqrt(-d) / (2 * a);
+                }
+                @Override
+                public double apply(double... args) {
+                    double determinant = Math.pow(args[1], 2) - 4 * args[0] * args[2];
+                    count++;
+                    MainActivity.quadraticOperation = true;
+                    if (determinant < 0) {
+                        if (count % 2 == 1) {
+                            MainActivity.imaginaryRoot = true;
+                            return findRealRoot(args[0], args[1]);
+                        } else {
+                            return findImaginaryPart(args[0], determinant);
+                        }
+                    } else {
+                        if (count % 2 == 1) {
+                            return findPositiveRoot(args[0], args[1], determinant);
+                        } else {
+                            return findNegativeRoot(args[0], args[1], determinant);
+                        }
+                    }
+                }
+                //etc...
+            },
+            new Function("logb", 2) {
+                @Override
+                public double apply(double... args) {
+                    return Math.log(args[0]) / Math.log(args[1]);
+                }
+            }
     };
 }
 

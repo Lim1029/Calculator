@@ -232,6 +232,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case "SETUP":
                 SetupFragment setupFragment = new SetupFragment();
                 setupFragment.show(getSupportFragmentManager(),"SETUP");
+                state = false;
                 break;
             default:
                 String temp = btnView.getTag().toString();

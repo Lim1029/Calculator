@@ -74,14 +74,14 @@
             android:id="@+id/radioButton4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:tag="1"
+            android:tag="norm1"
             android:text="1" />
 
         <RadioButton
             android:id="@+id/radioButton5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:tag="2"
+            android:tag="norm2"
             android:text="2" />
     </RadioGroup>
 
