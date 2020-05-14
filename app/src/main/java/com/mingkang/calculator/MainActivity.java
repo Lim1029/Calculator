@@ -31,6 +31,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import net.objecthunter.exp4j.function.Function;
@@ -44,10 +46,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class MainActivity extends Activity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener{
 
     public static EditText txtResult;
-    private TextView txtResult2;
+    private TextView txtResult2, txtD, txtR, txtG;
     private DecimalFormat df = new DecimalFormat("#.################");
     private boolean shift;
     private String calculationsString, storedValue = "";
@@ -80,11 +82,20 @@ public class MainActivity extends Activity implements View.OnClickListener, Popu
 
         InitialiseButton();
         InitialiseOnClickButton();
+        InitialiseTextView();
         Calculate.initializeOperator();
         Calculate.initializeShiftSymbol();
+        refreshSetting();
 
         findViewById(R.id.txtM).setVisibility(View.VISIBLE);
     }
+
+    private void InitialiseTextView() {
+        txtD = findViewById(R.id.txtD);
+        txtR = findViewById(R.id.txtR);
+        txtG = findViewById(R.id.txtG);
+    }
+
     private void InitialiseButton(){
         btnCos = findViewById(R.id.btnCos);
         btnSin = findViewById(R.id.btnSin);
@@ -218,7 +229,10 @@ public class MainActivity extends Activity implements View.OnClickListener, Popu
                     Calculate.done = false;
                 }
                 break;
-
+            case "SETUP":
+                SetupFragment setupFragment = new SetupFragment();
+                setupFragment.show(getSupportFragmentManager(),"SETUP");
+                break;
             default:
                 String temp = btnView.getTag().toString();
 
@@ -233,7 +247,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Popu
                 state = false;
                 break;
         }
-
+        removeBar();
         if(shift && !state) btnShiftTapped();
     }
     private void btnShiftTapped() {
@@ -288,14 +302,36 @@ public class MainActivity extends Activity implements View.OnClickListener, Popu
     @Override
     protected void onResume() {
         super.onResume();
-        this.getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-        );
+        removeBar();
     }
 
+    public void refreshSetting() {
+        switch (SetupFragment.unitOfAngle){
+            case "radian":
+                txtD.setVisibility(View.INVISIBLE);
+                txtR.setVisibility(View.VISIBLE);
+                txtG.setVisibility(View.INVISIBLE);
+                break;
+            case "gradian":
+                txtD.setVisibility(View.INVISIBLE);
+                txtR.setVisibility(View.INVISIBLE);
+                txtG.setVisibility(View.VISIBLE);
+                break;
+            default:
+                txtD.setVisibility(View.VISIBLE);
+                txtR.setVisibility(View.INVISIBLE);
+                txtG.setVisibility(View.INVISIBLE);
+                break;
+        }
+    }
+     public void removeBar(){
+         this.getWindow().getDecorView().setSystemUiVisibility(
+                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                         | View.SYSTEM_UI_FLAG_FULLSCREEN
+                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+         );
+     }
 }
